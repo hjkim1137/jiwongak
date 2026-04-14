@@ -11,7 +11,7 @@
       "insight_type": "scarcity_value",
       "severity": "info",
       "title": "AI 제품 프론트는 시장 희소",
-      "content": "AI Application 분야는 2024~2025년 형성된 신생 시장. '5년차 베테랑'이 거의 없어 33세 2년차도 진입 가능. AI 제품의 스트리밍 UX, RAG UI, Tool Use 결과 표시 등을 다룰 줄 아는 프론트엔드는 공급보다 수요가 큼. 같은 직무여도 일반 SaaS보다 희소가치가 높음.",
+      "content": "AI Application 분야는 2024~2025년 형성된 신생 시장. 5년차 이상 베테랑이 거의 없어 경력 2~3년차도 진입 가능. AI 제품의 스트리밍 UX, RAG UI, Tool Use 결과 표시 등을 다룰 줄 아는 프론트엔드는 공급보다 수요가 큼. 같은 직무여도 일반 SaaS보다 희소가치가 높음.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -22,7 +22,7 @@
       "insight_type": "growth_outlook",
       "severity": "info",
       "title": "B2B SaaS는 야근 적고 안정적",
-      "content": "B2C AI(뤼튼, 라이너 등)와 달리 B2B SaaS는 트래픽 폭증·24시간 대응 부담이 작아 WLB가 비교적 안정. 채널톡, 와탭랩스, 올거나이즈 등이 해당. 단 X본부 같은 실험 조직은 예외.",
+      "content": "B2C AI 서비스와 달리 B2B SaaS는 트래픽 폭증·24시간 대응 부담이 작아 WLB가 비교적 안정. 단 사내 실험 조직이나 신사업 본부는 예외로 강도가 높을 수 있음.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -34,7 +34,7 @@
       "insight_type": "career_ceiling",
       "severity": "warn",
       "title": "코드보다 문서 비중이 큼",
-      "content": "IEC 62304 등 규제로 문서 산출물(요구사항 명세, 추적성 매트릭스, 테스트 증거, 위험 분석)이 코드 작업보다 비중이 큼. 개발자 정체성을 잃기 쉽고, 다른 도메인 이직 시 'Medical SW QA'에 가까운 이미지가 붙을 수 있음.",
+      "content": "IEC 62304 등 규제로 문서 산출물(요구사항 명세, 추적성 매트릭스, 테스트 증거, 위험 분석)이 코드 작업 대비 비중이 큼. 코드 중심 업무를 기대하는 개발자에게는 괴리가 있을 수 있으며, 타 도메인 이직 시 'Medical SW QA' 유사 포지션으로 인식되는 경향.",
       "evidence_urls": [
         "https://www.iso.org/standard/38421.html"
       ],
@@ -46,7 +46,7 @@
       "insight_type": "lockin_risk",
       "severity": "warn",
       "title": "의료 도메인 락인 위험",
-      "content": "의료기기 도메인 경력 3년 이상 시 비의료 산업 이직 시 '도메인 매칭 안 됨'으로 평가 절하되는 경향. 단 의료 AI(루닛, 뷰노)는 AI 응용 도메인과 겹쳐 예외적으로 트랜스퍼 가능.",
+      "content": "의료기기 도메인 경력 3년 이상 시 비의료 산업 이직에서 도메인 전환 비용이 발생하는 경향. 단 의료 AI 분야는 AI 응용 도메인과 겹쳐 예외적으로 트랜스퍼 가능.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -59,7 +59,7 @@
       "insight_type": "career_ceiling",
       "severity": "critical",
       "title": "프론트엔드는 코어 직무 아님",
-      "content": "로봇 회사의 핵심은 로봇 제어/비전/하드웨어. 프론트엔드 팀은 1~3명 소규모로 운영되며 승진 천장이 낮음. Fleet Management 대시보드 같은 보조 역할에 머물 가능성 높음. 외국계+고연봉이라도 'AI 응용 프로덕트 엔지니어' 커리어 전략과 충돌하므로 함정각.",
+      "content": "로봇 회사의 핵심은 로봇 제어/비전/하드웨어. 프론트엔드 팀은 소규모(1~3명)로 운영되며 승진 천장이 낮은 경우가 많음. Fleet Management 대시보드 등 보조 역할에 머물 가능성. 프론트엔드/풀스택 커리어 성장을 중시하는 경우 주의 필요.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -81,7 +81,7 @@
       "insight_type": "transferability",
       "severity": "warn",
       "title": "B2C/SaaS로 이직 어려움",
-      "content": "SI 프론트 경력은 SaaS/B2C 회사에서 '제품 개발 경험 부족'으로 평가 절하되는 경향. 자사 제품 운영 경험, UX 개선 사이클, A/B 테스트, 실시간 데이터 처리, 대용량 트래픽 경험 부족으로 인식됨.",
+      "content": "SI 프론트 경력은 SaaS/B2C 회사 이직 시 자사 제품 운영 경험 부족으로 인식되는 경향. UX 개선 사이클, A/B 테스트, 실시간 데이터 처리, 대용량 트래픽 경험이 부족하다고 판단될 수 있음.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -93,7 +93,7 @@
       "insight_type": "transferability",
       "severity": "info",
       "title": "잡 마켓 가장 큼",
-      "content": "29CM, 무신사, 컬리, 쿠팡, 에이블리, 카페24 등 채용 활발. 결제(토스페이먼츠 연동) · 검색(Elasticsearch) · 대용량 트래픽 · Redis 캐싱 경험은 다른 도메인으로도 전이 용이. 단 AI 도메인 깊이는 쌓이지 않음.",
+      "content": "커머스 도메인은 국내 프론트엔드 채용 시장에서 가장 큰 비중. 결제(PG 연동) · 검색(Elasticsearch) · 대용량 트래픽 · Redis 캐싱 경험은 다른 도메인으로도 전이 용이. 단 AI 도메인 깊이는 쌓이지 않음.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -106,7 +106,7 @@
       "insight_type": "scarcity_value",
       "severity": "info",
       "title": "데이터 시각화 깊이로 차별화",
-      "content": "실시간 모니터링 대시보드, 시계열 데이터 시각화(D3.js, ECharts), 대용량 데이터 렌더링 경험은 시장에서 희소. 와탭랩스, 데이터독, 그라파나, 브레인즈컴퍼니로 연결되는 커리어 트랙. AI 도메인은 아니지만 AI Ops 확장으로 일부 매칭.",
+      "content": "실시간 모니터링 대시보드, 시계열 데이터 시각화(D3.js, ECharts), 대용량 데이터 렌더링 경험은 시장에서 희소. Observability/APM 도구 기업으로 연결되는 커리어 트랙. AI 도메인은 아니지만 AI Ops 확장으로 일부 매칭.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -116,7 +116,7 @@
       "insight_type": "lockin_risk",
       "severity": "warn",
       "title": "AI 도입 보수적 + 도메인 락인",
-      "content": "폐쇄망 환경, 규제 산업 특성으로 AI 도입이 느림. 금융 도메인 경력은 비금융 이직 시 '금융밖에 모른다'로 평가될 수 있음. 단 토스는 예외(기술 문화 좋음, 다양한 조직 보유). 결제·송금 도메인 깊이는 글로벌 핀테크 이직에 유리.",
+      "content": "폐쇄망 환경, 규제 산업 특성으로 AI 도입 속도가 타 산업 대비 느림. 금융 도메인 경력은 비금융 이직 시 도메인 전환 비용이 발생하는 경향. 단 핀테크 기업은 기술 문화가 개방적이어서 예외. 결제·송금 도메인 깊이는 글로벌 핀테크 이직에 유리.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -128,7 +128,7 @@
       "insight_type": "lockin_risk",
       "severity": "warn",
       "title": "제약 영업은 도메인 락인 강함",
-      "content": "제약 영업(MR) 3년+ 시 비제약 산업 이직 어려움. 의사·병원 네트워크가 핵심 자산이라 회사 간 이동은 활발하지만 산업 이탈은 드뭄. 단 글로벌 제약사(MSD, Pfizer 등) 경력은 외국계 헬스케어 이직에 유리.",
+      "content": "제약 영업(MR) 3년 이상 시 비제약 산업으로의 이동이 드뭄. 의사·병원 네트워크가 핵심 자산이라 동종 업계 내 이동은 활발하지만 산업 이탈 사례는 적음. 글로벌 제약사 경력은 외국계 헬스케어 이직에 유리.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -189,7 +189,7 @@
       "insight_type": "lockin_risk",
       "severity": "info",
       "title": "안정성 최상, 민간 이직은 어려움",
-      "content": "공기업/준정부기관은 정년 보장·연금·복지 등 안정성 최상. 단 민간 기업 이직 시 '공공 마인드'로 평가 절하되는 경향. 호봉제 특성상 5년차+ 연차 대비 연봉 정체. 안정성 최우선이면 정배, 성장/이직 옵션 원하면 부적합.",
+      "content": "공기업/준정부기관은 정년 보장·연금·복지 등 안정성 최상. 단 민간 기업 이직 시 업무 문화 차이로 적응 비용이 발생하는 경향. 호봉제 특성상 5년차 이후 연차 대비 연봉 정체 가능. 안정성 최우선이면 적합, 성장/이직 옵션 중시 시 유의.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -212,7 +212,7 @@
       "insight_type": "transferability",
       "severity": "info",
       "title": "전통 금융 → 핀테크 트랜스퍼 좋음",
-      "content": "전통 금융권 경력은 핀테크(토스/카카오뱅크/뱅크샐러드 등)에서 우대. 단 반대 방향(핀테크 → 전통 금융)은 보수적 평가. 핀테크는 IT 직군과 금융 전문직이 공존하는 경계 도메인이라 양쪽 경험 모두 자산화 가능.",
+      "content": "전통 금융권 경력은 핀테크 기업에서 우대. 단 반대 방향(핀테크 → 전통 금융)은 보수적 평가. 핀테크는 IT 직군과 금융 전문직이 공존하는 경계 도메인이라 양쪽 경험 모두 자산화 가능.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -224,7 +224,7 @@
       "insight_type": "career_ceiling",
       "severity": "warn",
       "title": "기술영업은 엔지니어링도 영업도 아닌 포지션 락인",
-      "content": "기술영업(SE/Sales Engineer)은 엔지니어링과 영업의 하이브리드. 처음엔 양쪽 다 배운다는 장점이 있으나, 3년+ 시 '엔지니어로 돌아가기엔 실무 감각 부족, 순수 영업으로 가기엔 영업 실적 약함' 상태가 되기 쉬움. 단 외국계 IT 벤더(Oracle/SAP/Salesforce 등)에서는 명확한 시니어 트랙이 있어 예외.",
+      "content": "기술영업(SE/Sales Engineer)은 엔지니어링과 영업의 하이브리드. 초기에는 양쪽을 경험하는 장점이 있으나, 3년 이상 시 엔지니어링 실무 감각과 순수 영업 실적 모두 중간에 머물기 쉬움. 외국계 IT 벤더에서는 명확한 시니어 트랙(Principal SE 등)이 있어 예외.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     }

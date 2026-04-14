@@ -39,6 +39,12 @@ yarn-error.log*
 # 공개 저장소에 푸시하지 않음. .env.local 컨벤션과 의미적 일관성.
 /.local/
 
+# eval set (개인 프로필 기반 gold label — 비공개)
+/eval/
+
+# Claude Code 프로젝트 설정 (커밋 순화 규칙 등 내부용)
+CLAUDE.md
+
 # windows bash crash dumps
 *.stackdump
 

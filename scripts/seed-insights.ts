@@ -35,7 +35,7 @@ interface SeedInsight {
   slug: string;
   industry?: string;
   sub_industry?: string;
-  job_category?: string;        // 17개 직군 중 1개 (개발/엔지니어링, 금융 전문직 등)
+  job_category?: string; // 17개 직군 중 1개 (개발/엔지니어링, 금융 전문직 등)
   job_function?: string;
   job_level?: "core" | "minor" | null;
   insight_type: InsightType;
@@ -87,7 +87,7 @@ async function embedBatch(texts: string[]): Promise<number[][]> {
     .map((d) => {
       if (d.embedding.length !== VOYAGE_DIM) {
         throw new Error(
-          `Embedding dim mismatch: expected ${VOYAGE_DIM}, got ${d.embedding.length}`
+          `Embedding dim mismatch: expected ${VOYAGE_DIM}, got ${d.embedding.length}`,
         );
       }
       return d.embedding;
@@ -110,7 +110,9 @@ async function main() {
   const embeddings: number[][] = [];
   for (let i = 0; i < texts.length; i += BATCH_SIZE) {
     const batch = texts.slice(i, i + BATCH_SIZE);
-    console.log(`Embedding batch ${i / BATCH_SIZE + 1} (${batch.length} items)...`);
+    console.log(
+      `Embedding batch ${i / BATCH_SIZE + 1} (${batch.length} items)...`,
+    );
     const vecs = await embedBatch(batch);
     embeddings.push(...vecs);
   }
