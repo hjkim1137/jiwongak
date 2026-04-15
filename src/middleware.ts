@@ -30,15 +30,16 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 비로그인 + 보호 경로 → 로그인으로 리다이렉트
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth") &&
-    request.nextUrl.pathname !== "/"
-  ) {
+  // 로그인 필요 경로 (히스토리, 마이페이지 등 저장 기능)
+  const protectedPaths = ["/history", "/settings"];
+  const isProtected = protectedPaths.some((p) =>
+    request.nextUrl.pathname.startsWith(p),
+  );
+
+  if (!user && isProtected) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    url.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }
 
