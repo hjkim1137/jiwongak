@@ -52,9 +52,13 @@ export function composeResult(
   );
   const composite = weightDenom > 0 ? weightedSum / weightDenom : 0;
 
-  // 인용된 인사이트 추출
+  // 인용된 인사이트 추출 (evidence 또는 flags에서 slug 언급)
   const citedInsights = insights.filter((i) =>
-    scores.some((s) => s.evidence.includes(i.slug)),
+    scores.some(
+      (s) =>
+        s.evidence.includes(i.slug) ||
+        s.flags.some((f) => f.includes(i.slug)),
+    ),
   );
 
   // 함정각 오버라이드: critical 인사이트가 인용된 경우

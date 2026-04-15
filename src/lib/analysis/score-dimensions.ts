@@ -69,19 +69,13 @@ const SCORE_TOOL: Anthropic.Tool = {
   },
 };
 
-function buildSystemPrompt(
-  profile: UserProfile,
-  insights: RetrievedInsight[],
-): string {
+/**
+ * 프로필 + 채점 규칙 (캐시 대상).
+ * 같은 사용자가 여러 공고 분석 시 이 블록이 캐시 히트.
+ */
+function buildProfilePrompt(profile: UserProfile): string {
   const skillList = profile.skills
     .map((s) => `- ${s.name} (${s.category}, Lv${s.level}, ${s.years ?? "?"}년)${s.evidence ? ` — ${s.evidence}` : ""}`)
-    .join("\n");
-
-  const insightList = insights
-    .map(
-      (i) =>
-        `[${i.slug}] (${i.severity}) ${i.title}: ${i.content}`,
-    )
     .join("\n");
 
   return `당신은 채용 적합도 분석 AI입니다.
@@ -95,16 +89,28 @@ function buildSystemPrompt(
 # 사용자 보유 스킬
 ${skillList || "(스킬 미입력)"}
 
-# 검색된 산업/직무 인사이트 (이것만 근거로 사용. 추측 금지)
-${insightList || "(관련 인사이트 없음)"}
-
 # 채점 규칙
-1. skill_match: 사용자 스킬과 공고 요구사항을 1:1 비교하여 채점. evidence에 매칭된 스킬명 인용
-2. wlb: 공고의 WLB 신호(야근, 재택, 유연근무 등) + 인사이트의 culture_pattern 근거로 채점
-3. career_ceiling: 위 인사이트만 근거로 사용. 인사이트가 없으면 confidence=0.3 이하로 설정
-4. evidence에는 반드시 사용자 스킬명 또는 인사이트 slug를 인용. 근거 없는 점수 금지
-5. 같은 입력에 대해 항상 같은 점수가 나와야 함 (결정적)
-6. severity=critical 인사이트가 있으면 flags에 반드시 경고 포함`;
+1. skill_match: 사용자 스킬과 공고 요구사항을 1:1 비교. evidence에 매칭된 스킬명 인용
+2. wlb: 공고의 WLB 신호 + 인사이트의 culture_pattern 근거로 채점
+3. career_ceiling: 아래 인사이트만 근거로 사용. 인사이트가 없으면 confidence=0.3 이하
+4. **evidence 형식 필수**: 인사이트를 근거로 쓸 때 반드시 slug를 그대로 넣어라. 예: "robotics-frontend-not-core". 스킬을 근거로 쓸 때는 스킬명. 설명문 금지, slug/스킬명만
+5. 같은 입력에 대해 항상 같은 점수 (결정적)
+6. severity=critical 인사이트가 있으면: (a) 해당 dimension의 evidence에 해당 slug 필수 포함 (b) flags에 경고 필수 포함`;
+}
+
+/**
+ * 인사이트 블록 (공고마다 다름, 캐시 대상 아님).
+ */
+function buildInsightsPrompt(insights: RetrievedInsight[]): string {
+  const insightList = insights
+    .map(
+      (i) =>
+        `[${i.slug}] (${i.severity}) ${i.title}: ${i.content}`,
+    )
+    .join("\n");
+
+  return `# 검색된 산업/직무 인사이트 (이것만 근거로 사용. 추측 금지)
+${insightList || "(관련 인사이트 없음)"}`;
 }
 
 function buildUserMessage(posting: ParsedPosting): string {
@@ -129,7 +135,8 @@ export async function scoreDimensions(
   profile: UserProfile,
   insights: RetrievedInsight[],
 ): Promise<DimensionScore[]> {
-  const systemPrompt = buildSystemPrompt(profile, insights);
+  const profilePrompt = buildProfilePrompt(profile);
+  const insightsPrompt = buildInsightsPrompt(insights);
 
   const res = await client.messages.create({
     model: "claude-sonnet-4-6",
@@ -138,8 +145,13 @@ export async function scoreDimensions(
     system: [
       {
         type: "text",
-        text: systemPrompt,
-        cache_control: { type: "ephemeral" }, // Prompt Cache (5분 TTL)
+        text: profilePrompt,
+        cache_control: { type: "ephemeral" }, // ★ 프로필은 캐시 (5분 TTL)
+      },
+      {
+        type: "text",
+        text: insightsPrompt,
+        // 인사이트는 공고마다 다르므로 캐시 안 함
       },
     ],
     tools: [SCORE_TOOL],
@@ -163,15 +175,15 @@ export async function scoreDimensions(
   const raw = toolUse.input as Record<string, any>;
 
   // cache hit 로그 (개발용)
-  const usage = res.usage as any;
-  if (usage.cache_read_input_tokens) {
-    console.log(
-      `[scoreDimensions] Prompt Cache HIT: ${usage.cache_read_input_tokens} tokens read from cache`,
-    );
-  } else if (usage.cache_creation_input_tokens) {
-    console.log(
-      `[scoreDimensions] Prompt Cache MISS: ${usage.cache_creation_input_tokens} tokens cached`,
-    );
+  const usage = res.usage as Record<string, number>;
+  const cacheRead = usage.cache_read_input_tokens ?? 0;
+  const cacheCreate = usage.cache_creation_input_tokens ?? 0;
+  if (cacheRead > 0) {
+    console.log(`[scoreDimensions] Prompt Cache HIT: ${cacheRead} tokens read from cache`);
+  } else if (cacheCreate > 0) {
+    console.log(`[scoreDimensions] Prompt Cache MISS: ${cacheCreate} tokens cached`);
+  } else {
+    console.log(`[scoreDimensions] Prompt Cache: no cache activity (usage: ${JSON.stringify(usage)})`);
   }
 
   return DIMENSIONS.map((dim) => ({
