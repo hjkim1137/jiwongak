@@ -175,9 +175,9 @@ export async function scoreDimensions(
   const raw = toolUse.input as Record<string, any>;
 
   // cache hit 로그 (개발용)
-  const usage = res.usage as Record<string, number>;
-  const cacheRead = usage.cache_read_input_tokens ?? 0;
-  const cacheCreate = usage.cache_creation_input_tokens ?? 0;
+  const usage = res.usage as unknown as Record<string, unknown>;
+  const cacheRead = (usage.cache_read_input_tokens as number) ?? 0;
+  const cacheCreate = (usage.cache_creation_input_tokens as number) ?? 0;
   if (cacheRead > 0) {
     console.log(`[scoreDimensions] Prompt Cache HIT: ${cacheRead} tokens read from cache`);
   } else if (cacheCreate > 0) {
