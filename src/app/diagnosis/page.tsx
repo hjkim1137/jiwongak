@@ -59,15 +59,8 @@ export default function DiagnosisPage() {
             이전
           </button>
 
-          {isLastStep ? (
-            <button
-              onClick={handleComplete}
-              disabled={!canGoNext()}
-              className="rounded-lg bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              진단 완료
-            </button>
-          ) : (
+          {/* Q0에서만 "다음" 버튼 표시. Q1~Q8은 선택 즉시 자동 이동 */}
+          {isQ0 && (
             <button
               onClick={next}
               disabled={!canGoNext()}

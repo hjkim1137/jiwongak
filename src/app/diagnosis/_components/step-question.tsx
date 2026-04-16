@@ -25,11 +25,8 @@ export function StepQuestion({
   const handleSelect = (optionId: "A" | "B") => {
     if (!qId) return;
     setAnswer(qId, optionId);
-    // 선택 후 짧은 딜레이 → 자동 다음 step (마지막이면 완료 처리)
-    setTimeout(() => {
-      if (isLast && onComplete) onComplete();
-      else next();
-    }, 250);
+    if (isLast && onComplete) onComplete();
+    else next();
   };
 
   return (
