@@ -18,7 +18,7 @@ import type {
   Dimension,
 } from "@/types/analysis";
 
-const TYPE_WEIGHTS: Record<LifestyleType, Record<Dimension, number>> = {
+export const TYPE_WEIGHTS: Record<LifestyleType, Record<Dimension, number>> = {
   njob_lifer:        { skill_match: 0.4, wlb: 0.4, career_ceiling: 0.2 },
   growth_challenger: { skill_match: 0.4, wlb: 0.2, career_ceiling: 0.4 },
   jumper:            { skill_match: 0.5, wlb: 0.1, career_ceiling: 0.4 },

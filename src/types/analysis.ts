@@ -124,6 +124,8 @@ export type AnalysisResult = {
 export type UserProfile = {
   id: string;
   career_years?: number;
+  /** Q0에서 선택한 경력 구간 (신입/주니어/시니어). 입력 폼 분기에 사용. */
+  career_stage?: "entry" | "junior" | "senior";
   current_position?: string;
   lifestyle_type: LifestyleType;
   job_category?: JobCategory;
