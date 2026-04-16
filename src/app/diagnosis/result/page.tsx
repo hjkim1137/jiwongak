@@ -19,25 +19,30 @@ export default function DiagnosisResultPage() {
     if (!result || !jobCategory || !careerStage) return;
 
     async function checkAndSave() {
-      const supabase = getBrowserClient();
-      const {
-        data: { user: u },
-      } = await supabase.auth.getUser();
+      try {
+        const supabase = getBrowserClient();
+        const {
+          data: { user: u },
+        } = await supabase.auth.getUser();
 
-      if (!u) {
+        if (!u) {
+          setSaveStatus("anonymous");
+          return;
+        }
+
+        setSaveStatus("saving");
+        const res = await saveProfile({
+          userId: u.id,
+          jobCategory: jobCategory!,
+          careerStage: careerStage!,
+          answers: answers as DiagnosisAnswers,
+          result: result!,
+        });
+        setSaveStatus(res.success ? "saved" : "error");
+      } catch {
+        // Supabase 미설정 또는 네트워크 오류 → 비회원 취급
         setSaveStatus("anonymous");
-        return;
       }
-
-      setSaveStatus("saving");
-      const res = await saveProfile({
-        userId: u.id,
-        jobCategory: jobCategory!,
-        careerStage: careerStage!,
-        answers: answers as DiagnosisAnswers,
-        result: result!,
-      });
-      setSaveStatus(res.success ? "saved" : "error");
     }
 
     checkAndSave();
