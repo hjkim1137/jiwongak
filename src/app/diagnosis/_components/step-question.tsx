@@ -7,16 +7,29 @@ import { QUESTION_IDS } from "@/types/diagnosis";
 type Props = {
   question: Question;
   questionIndex: number;
+  /** 마지막 문항에서 선택 시 호출 (진단 완료 처리) */
+  onComplete?: () => void;
+  isLast?: boolean;
 };
 
-export function StepQuestion({ question, questionIndex }: Props) {
-  const { answers, setAnswer, next, canGoNext } = useDiagnosisStore();
+export function StepQuestion({
+  question,
+  questionIndex,
+  onComplete,
+  isLast,
+}: Props) {
+  const { answers, setAnswer, next } = useDiagnosisStore();
   const qId = QUESTION_IDS[questionIndex];
   const selected = qId ? answers[qId] : undefined;
 
   const handleSelect = (optionId: "A" | "B") => {
     if (!qId) return;
     setAnswer(qId, optionId);
+    // 선택 후 짧은 딜레이 → 자동 다음 step (마지막이면 완료 처리)
+    setTimeout(() => {
+      if (isLast && onComplete) onComplete();
+      else next();
+    }, 250);
   };
 
   return (

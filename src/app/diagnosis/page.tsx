@@ -43,6 +43,8 @@ export default function DiagnosisPage() {
               key={question.id}
               question={question}
               questionIndex={questionIndex}
+              isLast={isLastStep}
+              onComplete={handleComplete}
             />
           ) : null}
         </div>

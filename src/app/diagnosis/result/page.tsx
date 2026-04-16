@@ -12,7 +12,7 @@ type SaveStatus = "idle" | "saving" | "saved" | "error" | "anonymous";
 export default function DiagnosisResultPage() {
   const { result, jobCategory, careerStage, answers, reset } =
     useDiagnosisStore();
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("anonymous");
 
   // 로그인 확인 + 자동 저장
   useEffect(() => {
