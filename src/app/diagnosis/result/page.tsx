@@ -80,35 +80,31 @@ export default function DiagnosisResultPage() {
           </p>
         </div>
 
-        {/* 저장 상태 — idle(확인 중)은 아무것도 표시하지 않아 깜빡임 방지 */}
-        {saveStatus === "saving" && (
-          <p className="text-center text-sm text-neutral-400">
-            프로필 저장 중...
-          </p>
-        )}
-        {saveStatus === "saved" && (
-          <p className="text-center text-sm text-green-600">
-            프로필이 저장되었습니다
-          </p>
-        )}
-        {saveStatus === "error" && (
-          <p className="text-center text-sm text-red-500">
-            저장 중 오류가 발생했습니다
-          </p>
-        )}
-        {saveStatus === "anonymous" && (
-          <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-center">
-            <p className="text-sm text-neutral-600">
-              로그인하면 진단 결과가 저장되어 공고 분석에 활용됩니다
-            </p>
-            <Link
-              href="/login"
-              className="mt-2 inline-block rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
-            >
-              Google로 로그인
-            </Link>
-          </div>
-        )}
+        {/* 저장 상태 — idle(확인 중)은 표시 없음 → 깜빡임 방지 */}
+        <div className="text-center text-sm">
+          {saveStatus === "saving" && (
+            <span className="text-neutral-400">프로필 저장 중...</span>
+          )}
+          {saveStatus === "saved" && (
+            <span className="text-green-600">프로필이 저장되었습니다</span>
+          )}
+          {saveStatus === "error" && (
+            <span className="text-red-500">저장 중 오류가 발생했습니다</span>
+          )}
+          {saveStatus === "anonymous" && (
+            <div className="rounded-lg bg-neutral-50 p-4">
+              <p className="text-neutral-500">
+                로그인하면 진단 결과가 저장되어 공고 분석에 활용됩니다
+              </p>
+              <Link
+                href="/login"
+                className="mt-2 inline-block text-sm font-medium text-neutral-900 underline"
+              >
+                Google로 로그인
+              </Link>
+            </div>
+          )}
+        </div>
 
         {/* 요약 정보 */}
         <div className="rounded-xl bg-neutral-50 p-5 text-sm text-neutral-600">
