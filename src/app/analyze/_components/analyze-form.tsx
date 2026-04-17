@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import type { AnalysisResult, Label } from "@/types/analysis";
+import type { AnalysisResult, Label, Severity } from "@/types/analysis";
 
 const MIN_LENGTH = 50;
 
@@ -46,6 +46,18 @@ const DIMENSION_LABEL: Record<string, string> = {
   skill_match: "스킬 매칭",
   wlb: "워라밸",
   career_ceiling: "성장성",
+};
+
+const SEVERITY_STYLE: Record<Severity, { badge: string; border: string; bg: string }> = {
+  info:     { badge: "bg-blue-100 text-blue-700",   border: "border-blue-100",   bg: "bg-blue-50"   },
+  warn:     { badge: "bg-amber-100 text-amber-700", border: "border-amber-200",  bg: "bg-amber-50"  },
+  critical: { badge: "bg-red-100 text-red-700",     border: "border-red-200",    bg: "bg-red-50"    },
+};
+
+const SEVERITY_LABEL: Record<Severity, string> = {
+  info: "참고",
+  warn: "주의",
+  critical: "위험",
 };
 
 async function fetchAnalysis(rawText: string): Promise<AnalysisResult> {
@@ -206,6 +218,52 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
           </div>
         )}
       </div>
+
+      {/* 경고 (warnings) — 함정각·패스각 주요 이슈 */}
+      {result.warnings.length > 0 && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-5">
+          <h3 className="mb-3 text-sm font-medium text-red-700">⚠ 주요 위험 요인</h3>
+          <ul className="space-y-1.5">
+            {result.warnings.map((w, i) => (
+              <li key={i} className="text-sm leading-relaxed text-red-700">
+                {w}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* 판단 근거 인사이트 */}
+      {result.cited_insights.length > 0 && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium text-neutral-700">이 분석의 근거</h3>
+          {result.cited_insights.map((insight) => {
+            const s = SEVERITY_STYLE[insight.severity];
+            return (
+              <div
+                key={insight.id}
+                className={`rounded-xl border p-4 ${s.bg} ${s.border}`}
+              >
+                <div className="flex items-start gap-2">
+                  <span
+                    className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-xs font-medium ${s.badge}`}
+                  >
+                    {SEVERITY_LABEL[insight.severity]}
+                  </span>
+                  <div>
+                    <p className="text-sm font-medium text-neutral-800">
+                      {insight.title}
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+                      {insight.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* 다른 공고 분석 버튼 */}
       <button
