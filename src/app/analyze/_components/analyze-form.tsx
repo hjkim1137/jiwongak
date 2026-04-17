@@ -184,7 +184,7 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
                   {DIMENSION_LABEL[d.dimension] ?? d.dimension}
                 </span>
                 <span className="text-xs text-neutral-400">
-                  프로필 필요 — 진단 완료 후 측정 가능
+                  — 스킬 미입력
                 </span>
               </div>
             ) : (
@@ -210,10 +210,19 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
 
         {/* 프로필 없는 경우 CTA */}
         {result.dimensions.some((d) => d.confidence === 0) && (
-          <div className="mt-4 rounded-lg bg-neutral-50 p-3 text-xs text-neutral-500">
-            스킬 매칭은 진단을 완료하고 로그인하면 내 프로필 기반으로 분석됩니다.{" "}
-            <a href="/diagnosis" className="font-medium text-neutral-900 underline">
-              진단 시작하기 →
+          <div className="mt-4 rounded-lg border border-neutral-200 bg-white p-4">
+            <p className="text-sm font-medium text-neutral-800">
+              스킬 매칭 점수가 빠져있어요
+            </p>
+            <p className="mt-1 text-xs text-neutral-500">
+              진단을 완료하고 로그인하면 내 스킬·경력·라이프스타일 기반으로
+              더 정확한 적합도를 받아볼 수 있어요.
+            </p>
+            <a
+              href="/diagnosis"
+              className="mt-3 flex items-center justify-center rounded-lg bg-neutral-900 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+            >
+              가입하고 정확한 매칭 결과 받기 →
             </a>
           </div>
         )}
