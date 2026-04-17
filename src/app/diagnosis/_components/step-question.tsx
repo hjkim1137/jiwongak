@@ -54,30 +54,17 @@ export function StepQuestion({
               onClick={() => handleSelect(option.id)}
               className={`w-full cursor-pointer rounded-xl border-2 px-5 py-4 text-left transition-all ${
                 isSelected
-                  ? "border-neutral-900 bg-neutral-50 shadow-sm"
+                  ? "border-neutral-900 bg-neutral-900"
                   : "border-neutral-200 bg-white hover:border-neutral-400"
               }`}
             >
-              <div className="flex items-start gap-3">
-                <span
-                  className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold transition-all ${
-                    isSelected
-                      ? "border-neutral-900 bg-neutral-900 text-white"
-                      : "border-neutral-300 text-neutral-400"
-                  }`}
-                >
-                  {option.id}
-                </span>
-                <span
-                  className={`text-sm leading-relaxed ${
-                    isSelected
-                      ? "font-medium text-neutral-900"
-                      : "text-neutral-600"
-                  }`}
-                >
-                  {option.label}
-                </span>
-              </div>
+              <span
+                className={`text-sm leading-relaxed ${
+                  isSelected ? "font-medium text-white" : "text-neutral-600"
+                }`}
+              >
+                {option.label}
+              </span>
             </button>
           );
         })}

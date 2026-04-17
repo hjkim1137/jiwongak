@@ -252,8 +252,9 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
             {result.warnings
               .filter((w) => !w.startsWith("⚫"))
               .map((w, i) => (
-                <li key={i} className="text-sm leading-relaxed text-amber-700">
-                  {w}
+                <li key={i} className="flex gap-2 text-sm leading-relaxed text-amber-700">
+                  <span className="mt-1 shrink-0">•</span>
+                  <span>{w}</span>
                 </li>
               ))}
           </ul>
