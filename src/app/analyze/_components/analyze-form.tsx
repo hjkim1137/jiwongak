@@ -228,16 +228,34 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
         )}
       </div>
 
-      {/* 경고 (warnings) — 함정각·패스각 주요 이슈 */}
-      {result.warnings.length > 0 && (
+      {/* 경고 — critical 인사이트 기반 위험 요인만 (⚫ 접두어) */}
+      {result.warnings.some((w) => w.startsWith("⚫")) && (
         <div className="rounded-xl border border-red-200 bg-red-50 p-5">
           <h3 className="mb-3 text-sm font-medium text-red-700">⚠ 주요 위험 요인</h3>
           <ul className="space-y-1.5">
-            {result.warnings.map((w, i) => (
-              <li key={i} className="text-sm leading-relaxed text-red-700">
-                {w}
-              </li>
-            ))}
+            {result.warnings
+              .filter((w) => w.startsWith("⚫"))
+              .map((w, i) => (
+                <li key={i} className="text-sm leading-relaxed text-red-700">
+                  {w}
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
+
+      {/* 참고사항 — dimension flags (실제 위험 신호, 불확실성 메모 제외) */}
+      {result.warnings.some((w) => !w.startsWith("⚫")) && (
+        <div className="rounded-xl border border-amber-100 bg-amber-50 p-5">
+          <h3 className="mb-3 text-sm font-medium text-amber-700">참고사항</h3>
+          <ul className="space-y-1.5">
+            {result.warnings
+              .filter((w) => !w.startsWith("⚫"))
+              .map((w, i) => (
+                <li key={i} className="text-sm leading-relaxed text-amber-700">
+                  {w}
+                </li>
+              ))}
           </ul>
         </div>
       )}

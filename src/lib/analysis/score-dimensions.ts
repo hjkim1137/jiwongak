@@ -95,7 +95,8 @@ ${skillList || "(스킬 미입력)"}
 3. career_ceiling: 아래 인사이트만 근거로 사용. 인사이트가 없으면 confidence=0.3 이하
 4. **evidence 형식 필수**: 인사이트를 근거로 쓸 때 반드시 slug를 그대로 넣어라. 예: "robotics-frontend-not-core". 스킬을 근거로 쓸 때는 스킬명. 설명문 금지, slug/스킬명만
 5. 같은 입력에 대해 항상 같은 점수 (결정적)
-6. severity=critical 인사이트가 있으면: (a) 해당 dimension의 evidence에 해당 slug 필수 포함 (b) flags에 경고 필수 포함`;
+6. severity=critical 인사이트가 있으면: (a) 해당 dimension의 evidence에 해당 slug 필수 포함 (b) flags에 경고 필수 포함
+7. **flags 규칙**: 공고·산업·직무에서 발견된 구체적 위험 신호만 넣는다. "신호 없음", "근거 부족", "불확실", "판단 어려움" 같은 불확실성 메모는 flags에 절대 넣지 않는다 — 불확실성은 confidence 값(0~1)으로만 표현한다`;
 }
 
 /**
