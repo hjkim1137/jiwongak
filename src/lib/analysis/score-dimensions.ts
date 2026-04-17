@@ -187,12 +187,18 @@ export async function scoreDimensions(
     console.log(`[scoreDimensions] Prompt Cache: no cache activity (usage: ${JSON.stringify(usage)})`);
   }
 
+  // 스킬·데이터 부재 관련 노이즈 flags 후처리 제거
+  // (프롬프트 규칙만으로는 Claude가 무시하는 경우가 있어 코드로 확실히 필터)
+  const NOISE_PATTERNS = ["스킬", "미입력", "매칭 불가", "스킬 없음", "미등록"];
+  const cleanFlags = (flags: string[]) =>
+    flags.filter((f) => !NOISE_PATTERNS.some((p) => f.includes(p)));
+
   const result = DIMENSIONS.map((dim) => ({
     dimension: dim,
     score: raw[dim].score as number,
     confidence: raw[dim].confidence as number,
     evidence: (raw[dim].evidence ?? []) as string[],
-    flags: (raw[dim].flags ?? []) as string[],
+    flags: cleanFlags((raw[dim].flags ?? []) as string[]),
   }));
 
   // 비회원(프로필 없음)일 때만 skill_match confidence=0 강제

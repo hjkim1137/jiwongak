@@ -134,6 +134,22 @@ export async function POST(request: NextRequest) {
     ]);
     console.log(`[analyze] parse+profile: ${Date.now() - t0}ms`);
 
+    // 공고 유효성 검증 — 의미없는 텍스트 차단
+    const hasRequirements =
+      posting.requirements.explicit.length > 0 ||
+      posting.requirements.implicit.length > 0 ||
+      posting.requirements.nice_to_have.length > 0;
+    const hasValidCompany =
+      posting.company.length > 1 &&
+      !["알 수 없음", "미확인", "unknown"].includes(posting.company.toLowerCase());
+
+    if (!hasRequirements || !hasValidCompany) {
+      return NextResponse.json(
+        { error: "채용공고 내용을 파악할 수 없습니다. 실제 공고 전문을 붙여넣어 주세요." },
+        { status: 422 },
+      );
+    }
+
     const t1 = Date.now();
     const insights = await retrieveInsights(posting, adminClient);
     console.log(`[analyze] retrieveInsights: ${Date.now() - t1}ms`);
