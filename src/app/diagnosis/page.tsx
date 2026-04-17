@@ -1,18 +1,55 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDiagnosisStore } from "@/lib/stores/diagnosis-store";
 import { StepQ0 } from "./_components/step-q0";
 import { StepQuestion } from "./_components/step-question";
 import { ProgressBar } from "./_components/progress-bar";
 import { QUESTIONS } from "@/lib/diagnosis/questions";
+import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
 import { classifyType } from "@/lib/diagnosis/classify-type";
 import type { DiagnosisAnswers } from "@/types/diagnosis";
 
 export default function DiagnosisPage() {
   const router = useRouter();
-  const { step, totalSteps, canGoNext, next, prev, isComplete, getAnswers } =
+  const [isNavigating, setIsNavigating] = useState(false);
+  const { step, totalSteps, canGoNext, next, prev, isComplete, getAnswers, result, reset } =
     useDiagnosisStore();
+
+  // 이미 진단 완료 상태 → 결과 요약 + 재진단 선택 화면
+  // isNavigating 중에는 표시하지 않음 (setState 직후 재렌더 플래시 방지)
+  if (result && !isNavigating) {
+    const meta = LIFESTYLE_TYPE_META[result.lifestyleType];
+    return (
+      <main className="flex min-h-screen flex-col items-center px-4 py-12 font-sans">
+        <div className="w-full max-w-lg space-y-6">
+          <div className="rounded-2xl border border-neutral-100 bg-neutral-50 p-8 text-center">
+            <span className="text-5xl">{meta.emoji}</span>
+            <h2 className="mt-4 text-xl font-bold text-neutral-800">{meta.label}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-neutral-500">{meta.summary}</p>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={() => router.push("/analyze")}
+              className="w-full rounded-lg bg-neutral-900 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+            >
+              공고 분석하러 가기
+            </button>
+            <button
+              onClick={() => {
+                reset();
+              }}
+              className="w-full rounded-lg border border-neutral-200 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50"
+            >
+              진단 다시 하기
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   const isQ0 = step === 0;
   const questionIndex = step - 1;
@@ -21,10 +58,10 @@ export default function DiagnosisPage() {
 
   const handleComplete = () => {
     if (!isComplete()) return;
+    setIsNavigating(true);
     const answers = getAnswers() as DiagnosisAnswers;
-    const result = classifyType(answers);
-    // 결과를 store에 저장 (Day 10에서 결과 페이지에서 사용)
-    useDiagnosisStore.setState({ result });
+    const diagResult = classifyType(answers);
+    useDiagnosisStore.setState({ result: diagResult });
     router.push("/diagnosis/result");
   };
 

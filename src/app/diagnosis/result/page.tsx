@@ -7,12 +7,13 @@ import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
 import { getBrowserClient } from "@/lib/supabase";
 import { saveProfile } from "@/lib/diagnosis/save-profile";
 import type { DiagnosisAnswers } from "@/types/diagnosis";
-type SaveStatus = "idle" | "saving" | "saved" | "error" | "anonymous";
+type SaveStatus = "saving" | "saved" | "error" | "anonymous";
 
 export default function DiagnosisResultPage() {
   const { result, jobCategory, careerStage, answers, reset } =
     useDiagnosisStore();
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  // "saving"으로 시작 → 첫 렌더부터 스피너 표시, 카드 플래시 없음
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("saving");
 
   // 로그인 확인 + 자동 저장
   useEffect(() => {
@@ -30,7 +31,6 @@ export default function DiagnosisResultPage() {
           return;
         }
 
-        setSaveStatus("saving");
         const res = await saveProfile({
           userId: u.id,
           jobCategory: jobCategory!,
@@ -48,18 +48,26 @@ export default function DiagnosisResultPage() {
     checkAndSave();
   }, [result, jobCategory, careerStage, answers]);
 
-  if (!result) {
+  // 저장 완료 전까지는 스피너만 표시 — 카드+결과 동시 렌더로 깜빡임 제거
+  if (!result || saveStatus === "saving") {
     return (
       <main className="flex min-h-screen items-center justify-center font-sans">
-        <div className="text-center">
-          <p className="text-neutral-500">진단 결과가 없습니다</p>
-          <Link
-            href="/diagnosis"
-            className="mt-4 inline-block text-sm text-neutral-900 underline"
-          >
-            진단하러 가기
-          </Link>
-        </div>
+        {!result ? (
+          <div className="text-center">
+            <p className="text-neutral-500">진단 결과가 없습니다</p>
+            <Link
+              href="/diagnosis"
+              className="mt-4 inline-block text-sm text-neutral-900 underline"
+            >
+              진단하러 가기
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-700" />
+            <p className="text-sm text-neutral-400">결과 저장 중...</p>
+          </div>
+        )}
       </main>
     );
   }
@@ -80,11 +88,8 @@ export default function DiagnosisResultPage() {
           </p>
         </div>
 
-        {/* 저장 상태 — idle(확인 중)은 표시 없음 → 깜빡임 방지 */}
+        {/* 저장 상태 (saved / error / anonymous) */}
         <div className="text-center text-sm">
-          {saveStatus === "saving" && (
-            <span className="text-neutral-400">프로필 저장 중...</span>
-          )}
           {saveStatus === "saved" && (
             <span className="text-green-600">프로필이 저장되었습니다</span>
           )}

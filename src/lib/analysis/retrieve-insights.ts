@@ -44,9 +44,11 @@ function calcSpecificity(
   row: { industry: string | null; job_category: string | null; job_function: string | null },
   posting: ParsedPosting,
 ): number {
-  const indMatch = row.industry === posting.industry;
-  const catMatch = row.job_category === posting.job_category;
-  const fnMatch = row.job_function === posting.job_function;
+  // null은 "모든 산업/직군에 범용 적용" 의미 — null === null은 매칭이 아님
+  // (null인 시드가 industry가 없는 공고와 매칭되어 0.7을 받는 오류 방지)
+  const indMatch = row.industry !== null && row.industry === posting.industry;
+  const catMatch = row.job_category !== null && row.job_category === posting.job_category;
+  const fnMatch = row.job_function !== null && row.job_function === posting.job_function;
   const allNull =
     row.industry == null && row.job_category == null && row.job_function == null;
 

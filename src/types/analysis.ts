@@ -117,6 +117,10 @@ export type AnalysisResult = {
   dimensions: DimensionScore[];
   cited_insights: RetrievedInsight[];
   warnings: string[];
+  /** 분석에 사용된 프로필 요약 (비회원은 undefined) */
+  lifestyle_type?: LifestyleType;
+  job_category?: JobCategory;
+  career_stage?: "entry" | "junior" | "senior";
 };
 
 // ── 사용자 프로필 (scoreDimensions 입력) ──

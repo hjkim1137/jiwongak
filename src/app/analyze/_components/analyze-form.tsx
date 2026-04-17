@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import type { AnalysisResult, Label, Severity } from "@/types/analysis";
+import { LIFESTYLE_TYPE_META, CAREER_STAGE_META } from "@/types/diagnosis";
 
 const MIN_LENGTH = 50;
 
@@ -59,6 +60,12 @@ const SEVERITY_LABEL: Record<Severity, string> = {
   warn: "주의",
   critical: "위험",
 };
+
+// 스킬 미입력/데이터 부재 관련 노이즈 경고 필터
+// 서버 캐시에 저장된 구버전 결과에도 적용되도록 클라이언트에서도 제거
+const NOISE_PATTERNS = ["스킬 미입력", "매칭 불가", "스킬 없음", "미등록", "스킬 정보", "개별 스킬"];
+const isNoiseWarning = (w: string) =>
+  NOISE_PATTERNS.some((p) => w.includes(p));
 
 async function fetchAnalysis(rawText: string): Promise<AnalysisResult> {
   const res = await fetch("/api/analyze", {
@@ -155,8 +162,32 @@ export function AnalyzeForm() {
 function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
   const meta = LABEL_META[result.label];
 
+  const lifestyleMeta = result.lifestyle_type
+    ? LIFESTYLE_TYPE_META[result.lifestyle_type]
+    : null;
+
   return (
     <div className="space-y-4">
+      {/* 분석 기준 프로필 카드 */}
+      {lifestyleMeta && (
+        <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-4 py-3 text-center">
+          <p className="text-sm text-neutral-500">
+            <span className="mr-1">{lifestyleMeta.emoji}</span>
+            <span className="font-medium text-neutral-800">{lifestyleMeta.label}</span>
+            {" 기준으로 분석했어요"}
+          </p>
+          {(result.job_category || result.career_stage) && (
+            <p className="mt-1 text-xs text-neutral-400">
+              {result.job_category && <span>{result.job_category}</span>}
+              {result.job_category && result.career_stage && <span className="mx-1">·</span>}
+              {result.career_stage && (
+                <span>{CAREER_STAGE_META[result.career_stage].label}</span>
+              )}
+            </p>
+          )}
+        </div>
+      )}
+
       {/* 라벨 + 종합 점수 */}
       <div
         className={`rounded-2xl border p-8 text-center ${meta.bg} ${meta.border}`}
@@ -244,22 +275,26 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
         </div>
       )}
 
-      {/* 참고사항 — dimension flags (실제 위험 신호, 불확실성 메모 제외) */}
-      {result.warnings.some((w) => !w.startsWith("⚫")) && (
-        <div className="rounded-xl border border-amber-100 bg-amber-50 p-5">
-          <h3 className="mb-3 text-sm font-medium text-amber-700">참고사항</h3>
-          <ul className="space-y-1.5">
-            {result.warnings
-              .filter((w) => !w.startsWith("⚫"))
-              .map((w, i) => (
+      {/* 참고사항 — dimension flags (노이즈 제거 후 실제 위험 신호만) */}
+      {(() => {
+        const items = result.warnings.filter(
+          (w) => !w.startsWith("⚫") && !isNoiseWarning(w),
+        );
+        if (items.length === 0) return null;
+        return (
+          <div className="rounded-xl border border-amber-100 bg-amber-50 p-5">
+            <h3 className="mb-3 text-sm font-medium text-amber-700">참고사항</h3>
+            <ul className="space-y-1.5">
+              {items.map((w, i) => (
                 <li key={i} className="flex gap-2 text-sm leading-relaxed text-amber-700">
                   <span className="mt-1 shrink-0">•</span>
                   <span>{w}</span>
                 </li>
               ))}
-          </ul>
-        </div>
-      )}
+            </ul>
+          </div>
+        );
+      })()}
 
       {/* 판단 근거 인사이트 */}
       {result.cited_insights.length > 0 && (

@@ -201,6 +201,15 @@ export async function scoreDimensions(
     flags: cleanFlags((raw[dim].flags ?? []) as string[]),
   }));
 
+  // skills가 없으면 skill_match flags 강제 초기화
+  // (직군 기반 추정 시 스킬 관련 플래그는 의미 없음 — 패턴 필터로 잡히지 않는 변형도 차단)
+  if (profile.skills.length === 0) {
+    const idx = result.findIndex((d) => d.dimension === "skill_match");
+    if (idx !== -1) {
+      result[idx] = { ...result[idx], flags: [] };
+    }
+  }
+
   // 비회원(프로필 없음)일 때만 skill_match confidence=0 강제
   // 로그인 사용자는 skills가 없어도 job_category 기반으로 Claude가 채점
   if (profile.id === "anonymous") {

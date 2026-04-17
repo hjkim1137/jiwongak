@@ -272,6 +272,16 @@
     },
 
     {
+      "slug": "accounting-cpa-inhouse-value",
+      "job_category": "회계·세무·재무",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "공인회계사·세무사 자격은 재무/세무팀 전문직 진입 요건",
+      "content": "공인회계사(KICPA) 또는 세무사 자격 보유자는 회계감사·세무조정·이전가격 등 법적 책임이 따르는 업무를 공식 수행 가능. 대기업 CFO 조직, 금융사 재무팀, 자산운용사는 자격 보유자를 비자격자와 명확히 차별해 채용하며 처우 프리미엄이 발생. 회계법인(Big4) 경력 3년 이상 후 사내 전환 시 이직 성공률과 초봉 협상력이 높음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
       "slug": "accounting-license-career-gate",
       "job_category": "회계·세무·재무",
       "insight_type": "scarcity_value",
@@ -299,6 +309,28 @@
       "severity": "warn",
       "title": "총무/사무직은 전문성 어필이 어려운 구조",
       "content": "총무·사무 직군은 업무 범위가 넓은 대신 깊이가 얕아지기 쉬움. '무엇이든 하는 사람'이 '전문가'로 인정받기 어려운 구조. 시설관리·비품관리·경영지원 등 세부 전문성을 명확히 쌓거나, 법무·컴플라이언스 등 전문 직군으로의 전환을 고려할 필요.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "legal-inhouse-attorney-license-value",
+      "job_category": "총무·법무·사무",
+      "job_function": "법무",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "변호사 자격은 사내법무팀의 핵심 진입 요건",
+      "content": "변호사(사법시험/변호사시험 합격) 자격 보유자는 계약 검토·소송 대리·규제 대응 등 법적 업무를 공식 수행할 수 있어 사내법무팀 채용 시 자격 보유 여부가 사실상 전제 조건. 대기업·금융사·IT 플랫폼 기업의 사내변호사 수요가 꾸준히 증가하는 추세. 로펌 경력 2~3년 후 인하우스 전환 시 처우 프리미엄이 발생하는 경향.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "legal-patent-attorney-ip-value",
+      "job_category": "총무·법무·사무",
+      "job_function": "지식재산",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "변리사 자격은 IP 전문 직군의 진입 게이트",
+      "content": "변리사(특허청 등록) 자격 보유자는 특허 출원·등록·심판·침해 분석 등 IP 업무를 공식 수행 가능. 이공계 전공 + 변리사 자격 조합은 특히 반도체·제약·IT 기업 IP팀에서 희소성이 높음. 사내 변리사는 외부 특허법인 의뢰 비용 절감과 기술 이해도 측면에서 수요가 증가 중.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     },
@@ -462,6 +494,17 @@
     },
 
     {
+      "slug": "medical-doctor-license-inhouse-value",
+      "job_category": "의료",
+      "job_function": "의사",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "의사 면허는 사내의무실·직업환경의학 포지션의 필수 요건",
+      "content": "의사 면허 소지자(의사국시 합격)는 사내의무실 운영, 직업환경의학 자문, 의료기기·제약 임상 의사 결정 역할을 공식 수행 가능. 100인 이상 제조·건설·화학 사업장의 직업환경의학과 전문의 채용 의무화로 수요 증가. 의료기기·디지털헬스 기업에서는 의학 자문(MA), 임상전략 직군으로도 면허 보유자를 우대.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
       "slug": "medical-nurse-chronic-shortage",
       "job_category": "의료",
       "insight_type": "scarcity_value",
@@ -482,6 +525,16 @@
       "source_type": "curated_analysis"
     },
 
+    {
+      "slug": "pharma-pharmacist-ra-qa-value",
+      "job_category": "연구·R&D",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "약사 면허는 제약·바이오 RA/QA 직군의 핵심 자격",
+      "content": "약사 면허 소지자(약사국시 합격)는 의약품 허가·심사·품질관리 업무에서 규제기관(식품의약품안전처) 기준상 전문가로 인정. 제약사 RA(규제업무), QA(품질보증), 약사감사 직군은 약사 면허를 사실상 필수로 요구하는 경우가 많음. 글로벌 제약사의 국내 법인은 면허 보유 RA 전문가를 지속 채용하는 추세.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
     {
       "slug": "rnd-degree-preference-strong",
       "job_category": "연구·R&D",
@@ -558,12 +611,100 @@
     },
 
     {
+      "slug": "hr-certified-labor-attorney-value",
+      "job_category": "인사·노무·HRD",
+      "job_function": "노무",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "공인노무사 자격은 사내 노무 직군의 핵심 진입 요건",
+      "content": "공인노무사(CPLA) 자격 보유자는 단순 HR 실무자와 달리 노동법 자문, 단체교섭 대리, 노동위원회 심판 등 법적 업무를 공식 수행 가능. 중견·대기업, 금융사, 공공기관은 사내 노무사를 별도 전문직으로 채용하는 추세이며, 자격 보유자의 공급이 수요 대비 제한적. 노사관계 리스크가 높은 제조·유통·의료 섹터에서 특히 수요가 높음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "hr-labor-specialist-vs-generalist",
+      "job_category": "인사·노무·HRD",
+      "job_function": "노무",
+      "insight_type": "transferability",
+      "severity": "info",
+      "title": "노무 전문 트랙은 HR 제너럴리스트와 커리어 분리",
+      "content": "노무·노사관계 전문가는 HR 제너럴리스트(채용·평가·보상 통합 담당)와 커리어 트랙이 구분됨. 노무 전문가는 공인노무사 사무소, 고용노동부 관련 기관, 대기업 노사협력팀 등으로 이동성이 높고 법적 전문성이 누적될수록 시장가치가 상승. 반면 일반 HR 직군으로의 전환은 비교적 용이하나 노무 깊이가 희석될 수 있음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
       "slug": "hr-hrbp-people-team-growth",
       "job_category": "인사·노무·HRD",
       "insight_type": "growth_outlook",
       "severity": "info",
       "title": "HRBP/피플팀 직군 성장세",
       "content": "IT/스타트업 중심으로 전통적 인사관리(HRM)에서 HRBP(HR Business Partner)/피플팀 모델로 전환 추세. 채용·조직문화·성과관리를 비즈니스 관점에서 접근하는 역량 수요 증가. 50명 이상 스케일업 기업에서 HRBP 경험이 커리어 차별화 요소.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "robotics-sw-engineer-core-role",
+      "industry": "로봇",
+      "job_category": "IT개발·데이터",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "로봇 SW 엔지니어(ROS/제어/인식)는 코어 직무",
+      "content": "자율주행·물류로봇·협동로봇 기업에서 ROS2 기반 모션 플래닝, 센서 퓨전, 경로 계획, 임베디드 SW 개발 인력은 핵심 직무로 분류됨. 로봇 제어·인식·자율화 역량을 보유한 SW 엔지니어는 시장 공급이 수요 대비 부족. 자율주행·서비스로봇 도메인은 AI/비전 기술과 교차해 커리어 확장성 높음. 단 HW 의존도가 높아 개발 사이클이 길고 디버깅 난이도가 높은 특성이 있음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "robotics-growth-stage-scaling",
+      "industry": "로봇",
+      "insight_type": "growth_outlook",
+      "severity": "warn",
+      "title": "로봇 스타트업은 HW 투자로 스케일업 변동성 큼",
+      "content": "로봇 기업은 HW 개발·양산 비용이 높아 SW 기업 대비 투자 소진 속도가 빠름. 시리즈B 이전 기업은 양산 전환 시점 전후로 인력 재조정이 발생하는 경우 있음. 반면 자율주행·물류 자동화 분야는 대기업(이커머스, 물류사) 수요와 연계돼 M&A·JV 형태의 Exit 사례도 존재. 성장 가능성과 불확실성이 공존하는 섹터.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "ai-startup-equity-growth-risk",
+      "industry": "AI 응용",
+      "insight_type": "growth_outlook",
+      "severity": "warn",
+      "title": "초기 AI 스타트업: 스톡옵션 기대감 vs 불확실성",
+      "content": "시리즈A~B 단계 AI 플랫폼 기업은 스톡옵션과 빠른 성장 경험을 제공하지만 BEP(손익분기점) 달성 전 런웨이 소진 리스크가 존재. 생성형 AI 기반 B2B SaaS 시장은 2024~2025년 경쟁 심화로 고객 확보 비용 증가 추세. 단 LLM 응용·RAG·에이전트 개발 경험은 시장 희소성이 높아 이직 옵션은 풍부. 성장성보다 안정성을 우선시하는 경우 유의.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "b2b-sales-domain-expertise-premium",
+      "job_category": "영업·판매·무역",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "B2B 영업은 도메인 전문성이 연봉 프리미엄 결정",
+      "content": "B2B 영업직은 단순 세일즈 스킬보다 담당 도메인(IT솔루션, 제조, 금융, 의료 등) 전문 지식이 고객 신뢰와 딜 사이즈를 결정하는 경향. 도메인 이해도가 낮으면 제품 시연·제안서 수준이 낮아 성과 차이가 명확히 발생. 엔터프라이즈 대상 SaaS, ERP, 클라우드 솔루션 등 복잡한 제품군 영업 경력은 높은 시장 이동성을 가짐.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "b2b-sales-career-ceiling-no-pm",
+      "job_category": "영업·판매·무역",
+      "insight_type": "career_ceiling",
+      "severity": "warn",
+      "title": "영업직은 관리직 외 커리어 확장 경로가 제한적",
+      "content": "B2B 영업 경력은 팀장/본부장 등 관리 트랙이 전형적인 성장 경로. 비영업 직군(기획, PM, 마케팅)으로의 전환은 실무 경험 부족으로 어려운 경우가 많음. 단 사업개발(BD), 파트너십, 영업기획 등 하이브리드 직군으로의 전환은 비교적 용이. 대고객 경험을 비즈니스 역량으로 어필할 수 있는 직군을 커리어 목표로 설정하는 것이 유리.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "design-product-ux-tech-demand",
+      "job_category": "디자인",
+      "job_function": "UXUI",
+      "insight_type": "growth_outlook",
+      "severity": "info",
+      "title": "프로덕트 디자이너/UXUI 디자이너 IT기업 수요 꾸준",
+      "content": "IT/SaaS/앱 기업은 프로덕트 디자이너(UI+UX 통합 직무) 채용이 일반적. Figma 기반 컴포넌트 시스템(Design System) 구축 경험, 사용자 리서치, A/B 테스트 연동 역량이 채용 시 주요 우대 사항. 개발자와 협업하는 핸드오프 역량이 중요하며, 이를 갖춘 디자이너는 SaaS/앱 기업 시장에서 이동성이 높음. AI 도구(디자인 자동화, AI 기반 UX 리서치) 적응 역량이 점차 중요해지는 추세.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
     }

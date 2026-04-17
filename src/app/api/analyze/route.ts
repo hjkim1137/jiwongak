@@ -69,9 +69,16 @@ async function loadProfile(
     .select("*")
     .eq("user_id", userId);
 
+  const careerStage = (profile.diagnosis_answers as any)?.q0?.careerStage as
+    | "entry"
+    | "junior"
+    | "senior"
+    | undefined;
+
   return {
     id: userId,
     career_years: profile.career_years,
+    career_stage: careerStage,
     current_position: profile.current_position,
     lifestyle_type: profile.lifestyle_type ?? "balanced",
     job_category: profile.job_category,
@@ -158,7 +165,17 @@ export async function POST(request: NextRequest) {
     const scores = await scoreDimensions(posting, profile, insights);
     console.log(`[analyze] scoreDimensions: ${Date.now() - t2}ms`);
 
-    const result = composeResult(scores, profile, insights);
+    const baseResult = composeResult(scores, profile, insights);
+    const result = {
+      ...baseResult,
+      ...(profile.id !== "anonymous"
+        ? {
+            lifestyle_type: profile.lifestyle_type,
+            job_category: profile.job_category,
+            career_stage: profile.career_stage,
+          }
+        : {}),
+    };
     console.log(`[analyze] total: ${Date.now() - t0}ms`);
 
     // DB 저장 (로그인 사용자만)
