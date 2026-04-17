@@ -25,8 +25,11 @@ export function StepQuestion({
   const handleSelect = (optionId: "A" | "B") => {
     if (!qId) return;
     setAnswer(qId, optionId);
-    if (isLast && onComplete) onComplete();
-    else next();
+    if (isLast && onComplete) {
+      setTimeout(onComplete, 300);
+    } else {
+      setTimeout(next, 300);
+    }
   };
 
   return (

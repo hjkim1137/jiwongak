@@ -222,7 +222,7 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
               href="/diagnosis"
               className="mt-3 flex items-center justify-center rounded-lg bg-neutral-900 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
             >
-              프로필 저장하고 정확한 매칭 결과 받기 →
+              프로필 저장하고 정확한 매칭 결과 받기 ➡️
             </a>
           </div>
         )}
