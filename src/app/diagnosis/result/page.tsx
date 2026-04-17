@@ -128,12 +128,6 @@ export default function DiagnosisResultPage() {
                   : "시니어"}
             </span>
           </div>
-          <div className="mt-2 flex justify-between">
-            <span>top1-top2 gap</span>
-            <span className="font-medium text-neutral-900">
-              {result.topGap}
-            </span>
-          </div>
         </div>
 
         {/* 타입별 점수 */}
