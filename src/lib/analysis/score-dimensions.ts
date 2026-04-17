@@ -195,8 +195,9 @@ export async function scoreDimensions(
     flags: (raw[dim].flags ?? []) as string[],
   }));
 
-  // 스킬 미입력 시 skill_match는 의미 없음 → confidence=0 강제 (composeResult에서 가중치 0 처리)
-  if (profile.skills.length === 0) {
+  // 비회원(프로필 없음)일 때만 skill_match confidence=0 강제
+  // 로그인 사용자는 skills가 없어도 job_category 기반으로 Claude가 채점
+  if (profile.id === "anonymous") {
     const idx = result.findIndex((d) => d.dimension === "skill_match");
     if (idx !== -1) {
       result[idx] = {
