@@ -186,11 +186,27 @@ export async function scoreDimensions(
     console.log(`[scoreDimensions] Prompt Cache: no cache activity (usage: ${JSON.stringify(usage)})`);
   }
 
-  return DIMENSIONS.map((dim) => ({
+  const result = DIMENSIONS.map((dim) => ({
     dimension: dim,
-    score: raw[dim].score,
-    confidence: raw[dim].confidence,
-    evidence: raw[dim].evidence ?? [],
-    flags: raw[dim].flags ?? [],
+    score: raw[dim].score as number,
+    confidence: raw[dim].confidence as number,
+    evidence: (raw[dim].evidence ?? []) as string[],
+    flags: (raw[dim].flags ?? []) as string[],
   }));
+
+  // 스킬 미입력 시 skill_match는 의미 없음 → confidence=0 강제 (composeResult에서 가중치 0 처리)
+  if (profile.skills.length === 0) {
+    const idx = result.findIndex((d) => d.dimension === "skill_match");
+    if (idx !== -1) {
+      result[idx] = {
+        dimension: "skill_match",
+        score: 50,
+        confidence: 0,
+        evidence: [],
+        flags: [],
+      };
+    }
+  }
+
+  return result;
 }

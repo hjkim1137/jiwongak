@@ -165,25 +165,46 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
           항목별 점수
         </h3>
         <div className="space-y-3">
-          {result.dimensions.map((d) => (
-            <div key={d.dimension} className="flex items-center gap-3">
-              <span className="w-20 shrink-0 text-xs text-neutral-500">
-                {DIMENSION_LABEL[d.dimension] ?? d.dimension}
-              </span>
-              <div className="flex-1">
-                <div className="h-2 w-full overflow-hidden rounded-full bg-neutral-100">
-                  <div
-                    className="h-full rounded-full bg-neutral-700 transition-all"
-                    style={{ width: `${d.score}%` }}
-                  />
-                </div>
+          {result.dimensions.map((d) =>
+            d.confidence === 0 ? (
+              <div key={d.dimension} className="flex items-center gap-3">
+                <span className="w-20 shrink-0 text-xs text-neutral-500">
+                  {DIMENSION_LABEL[d.dimension] ?? d.dimension}
+                </span>
+                <span className="text-xs text-neutral-400">
+                  프로필 필요 — 진단 완료 후 측정 가능
+                </span>
               </div>
-              <span className="w-8 text-right font-mono text-xs text-neutral-500">
-                {d.score}
-              </span>
-            </div>
-          ))}
+            ) : (
+              <div key={d.dimension} className="flex items-center gap-3">
+                <span className="w-20 shrink-0 text-xs text-neutral-500">
+                  {DIMENSION_LABEL[d.dimension] ?? d.dimension}
+                </span>
+                <div className="flex-1">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-neutral-100">
+                    <div
+                      className="h-full rounded-full bg-neutral-700 transition-all"
+                      style={{ width: `${d.score}%` }}
+                    />
+                  </div>
+                </div>
+                <span className="w-8 text-right font-mono text-xs text-neutral-500">
+                  {d.score}
+                </span>
+              </div>
+            ),
+          )}
         </div>
+
+        {/* 프로필 없는 경우 CTA */}
+        {result.dimensions.some((d) => d.confidence === 0) && (
+          <div className="mt-4 rounded-lg bg-neutral-50 p-3 text-xs text-neutral-500">
+            스킬 매칭은 진단을 완료하고 로그인하면 내 프로필 기반으로 분석됩니다.{" "}
+            <a href="/diagnosis" className="font-medium text-neutral-900 underline">
+              진단 시작하기 →
+            </a>
+          </div>
+        )}
       </div>
 
       {/* 다른 공고 분석 버튼 */}
