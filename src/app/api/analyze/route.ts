@@ -123,16 +123,27 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 프로필 로드 (로그인 시 DB, 비회원 시 기본값)
-    const profile = user
-      ? (await loadProfile(adminClient, user.id)) ?? DEFAULT_PROFILE
-      : DEFAULT_PROFILE;
+    const t0 = Date.now();
 
-    // 파이프라인 실행
-    const posting = await parsePosting(rawText);
+    // loadProfile + parsePosting 병렬 실행 (두 작업은 완전 독립)
+    const [profile, posting] = await Promise.all([
+      user
+        ? loadProfile(adminClient, user.id).then((p) => p ?? DEFAULT_PROFILE)
+        : Promise.resolve(DEFAULT_PROFILE),
+      parsePosting(rawText),
+    ]);
+    console.log(`[analyze] parse+profile: ${Date.now() - t0}ms`);
+
+    const t1 = Date.now();
     const insights = await retrieveInsights(posting, adminClient);
+    console.log(`[analyze] retrieveInsights: ${Date.now() - t1}ms`);
+
+    const t2 = Date.now();
     const scores = await scoreDimensions(posting, profile, insights);
+    console.log(`[analyze] scoreDimensions: ${Date.now() - t2}ms`);
+
     const result = composeResult(scores, profile, insights);
+    console.log(`[analyze] total: ${Date.now() - t0}ms`);
 
     // DB 저장 (로그인 사용자만)
     if (user) {

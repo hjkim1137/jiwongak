@@ -141,7 +141,7 @@ export async function scoreDimensions(
 
   const res = await client.messages.create({
     model: "claude-sonnet-4-6",
-    max_tokens: 3000,
+    max_tokens: 1024,
     temperature: 0,
     system: [
       {
