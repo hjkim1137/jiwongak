@@ -52,6 +52,10 @@ function calcSpecificity(
   const allNull =
     row.industry == null && row.job_category == null && row.job_function == null;
 
+  // industry가 명시된 인사이트는 해당 산업 공고에만 적용
+  // catMatch/fnMatch가 있어도 industry 불일치면 완전 무관 (예: 제약영업 인사이트 → 보험 공고)
+  if (row.industry !== null && !indMatch) return 0;
+
   if (indMatch && catMatch && fnMatch) return 1.0;
   if (indMatch && catMatch) return 0.85;
   if (indMatch) return 0.7;

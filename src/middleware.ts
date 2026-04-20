@@ -48,7 +48,8 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // 정적 파일, _next, favicon 제외
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // 정적 파일, _next, favicon, API 라우트 제외
+    // API 라우트는 route.ts 내부에서 직접 auth 처리하므로 미들웨어 불필요
+    "/((?!_next/static|_next/image|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

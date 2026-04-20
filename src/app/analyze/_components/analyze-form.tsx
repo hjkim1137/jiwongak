@@ -126,9 +126,9 @@ export function AnalyzeForm() {
         <button
           type="submit"
           disabled={isDisabled}
-          className="w-full rounded-lg bg-neutral-900 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
+          className="w-full cursor-pointer rounded-lg bg-neutral-900 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {mutation.isPending ? "분석 중..." : "지원각 분석하기"}
+          {mutation.isPending ? "분석 중..." : "분석하기"}
         </button>
       </form>
 
@@ -137,10 +137,6 @@ export function AnalyzeForm() {
         <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-8 text-center">
           <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-700" />
           <p className="text-sm font-medium text-neutral-700">공고 분석 중</p>
-          <p className="mt-1 text-xs text-neutral-400">
-            공고 파싱 → 인사이트 검색 → AI 스코어링 순서로 처리합니다
-          </p>
-          <p className="mt-1 text-xs text-neutral-400">보통 10~20초 소요됩니다</p>
         </div>
       )}
 
@@ -277,9 +273,17 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
 
       {/* 참고사항 — dimension flags (노이즈 제거 후 실제 위험 신호만) */}
       {(() => {
-        const items = result.warnings.filter(
-          (w) => !w.startsWith("⚫") && !isNoiseWarning(w),
-        );
+        const S = "[a-z][a-z0-9]*(?:-[a-z0-9]+)+";
+        const stripSlugs = (text: string) =>
+          text
+            .replace(new RegExp(`^${S}:\\s*`), "")
+            .replace(new RegExp(`\\s*[—–]\\s*${S}.*$`), "")
+            .replace(new RegExp(`\\s*\\(${S}[^)]*\\)`, "g"), "")
+            .trim();
+        const items = result.warnings
+          .filter((w) => !w.startsWith("⚫") && !isNoiseWarning(w))
+          .map(stripSlugs)
+          .filter(Boolean);
         if (items.length === 0) return null;
         return (
           <div className="rounded-xl border border-amber-100 bg-amber-50 p-5">
@@ -328,13 +332,6 @@ function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
         </div>
       )}
 
-      {/* 다른 공고 분석 버튼 */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="w-full rounded-lg border border-neutral-300 py-3 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50"
-      >
-        다른 공고 분석하기
-      </button>
     </div>
   );
 }

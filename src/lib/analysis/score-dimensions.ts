@@ -131,14 +131,11 @@ WLB 신호: ${posting.raw_signals?.wlb_keywords?.join(", ") || "없음"}
 ${posting.raw_signals?.salary_mentioned ? `연봉: ${posting.raw_signals.salary_mentioned}만원` : ""}`;
 }
 
-export async function scoreDimensions(
+async function callScoreAPI(
+  profilePrompt: string,
+  insightsPrompt: string,
   posting: ParsedPosting,
-  profile: UserProfile,
-  insights: RetrievedInsight[],
-): Promise<DimensionScore[]> {
-  const profilePrompt = buildProfilePrompt(profile);
-  const insightsPrompt = buildInsightsPrompt(insights);
-
+): Promise<{ raw: Record<string, any>; usage: Record<string, unknown> }> {
   const res = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 1024,
@@ -152,31 +149,50 @@ export async function scoreDimensions(
       {
         type: "text",
         text: insightsPrompt,
-        // 인사이트는 공고마다 다르므로 캐시 안 함
       },
     ],
     tools: [SCORE_TOOL],
     tool_choice: { type: "tool", name: "score_posting" },
-    messages: [
-      {
-        role: "user",
-        content: buildUserMessage(posting),
-      },
-    ],
+    messages: [{ role: "user", content: buildUserMessage(posting) }],
   });
 
   const toolUse = res.content.find(
     (b): b is Anthropic.ToolUseBlock => b.type === "tool_use",
   );
-
-  if (!toolUse) {
-    throw new Error("scoreDimensions: Tool use not returned from Claude");
-  }
+  if (!toolUse) throw new Error("scoreDimensions: Tool use not returned from Claude");
 
   const raw = toolUse.input as Record<string, any>;
+  const missingDims = DIMENSIONS.filter((d) => !raw[d]);
+  if (missingDims.length > 0) {
+    console.warn(`[scoreDimensions] Missing dimensions: ${missingDims.join(", ")}. raw keys: ${Object.keys(raw).join(", ")}`);
+    throw new Error(`scoreDimensions: Missing dimensions: ${missingDims.join(", ")}`);
+  }
+
+  return { raw, usage: res.usage as unknown as Record<string, unknown> };
+}
+
+export async function scoreDimensions(
+  posting: ParsedPosting,
+  profile: UserProfile,
+  insights: RetrievedInsight[],
+): Promise<DimensionScore[]> {
+  const profilePrompt = buildProfilePrompt(profile);
+  const insightsPrompt = buildInsightsPrompt(insights);
+
+  // 위촉직·비정형 공고에서 Claude가 간헐적으로 dimension 누락 → 최대 2회 재시도
+  let raw: Record<string, any> | null = null;
+  let usage: Record<string, unknown> = {};
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      ({ raw, usage } = await callScoreAPI(profilePrompt, insightsPrompt, posting));
+      break;
+    } catch (err) {
+      if (attempt === 2) throw err;
+      console.warn(`[scoreDimensions] attempt ${attempt} failed, retrying…`);
+    }
+  }
 
   // cache hit 로그 (개발용)
-  const usage = res.usage as unknown as Record<string, unknown>;
   const cacheRead = (usage.cache_read_input_tokens as number) ?? 0;
   const cacheCreate = (usage.cache_creation_input_tokens as number) ?? 0;
   if (cacheRead > 0) {
@@ -190,15 +206,28 @@ export async function scoreDimensions(
   // 스킬·데이터 부재 관련 노이즈 flags 후처리 제거
   // (프롬프트 규칙만으로는 Claude가 무시하는 경우가 있어 코드로 확실히 필터)
   const NOISE_PATTERNS = ["스킬", "미입력", "매칭 불가", "스킬 없음", "미등록"];
+  // Claude가 flags 텍스트 안에 slug를 노출하는 경우 제거 (내부 식별자, UI 비노출)
+  // 패턴 1: "slug: 텍스트" — 문장 앞 slug 접두어
+  // 패턴 2: "(slug ...)" — 괄호 내 slug
+  // 패턴 3: "— slug ..." — em-dash 뒤 slug (이후 문장 끝까지 제거)
+  const S = `[a-z][a-z0-9]*(?:-[a-z0-9]+)+`;
+  const stripSlugs = (text: string) =>
+    text
+      .replace(new RegExp(`^${S}:\\s*`), "")
+      .replace(new RegExp(`\\s*[—–]\\s*${S}.*$`), "")
+      .replace(new RegExp(`\\s*\\(${S}[^)]*\\)`, "g"), "")
+      .trim();
   const cleanFlags = (flags: string[]) =>
-    flags.filter((f) => !NOISE_PATTERNS.some((p) => f.includes(p)));
+    flags
+      .filter((f) => !NOISE_PATTERNS.some((p) => f.includes(p)))
+      .map(stripSlugs);
 
   const result = DIMENSIONS.map((dim) => ({
     dimension: dim,
-    score: raw[dim].score as number,
-    confidence: raw[dim].confidence as number,
-    evidence: (raw[dim].evidence ?? []) as string[],
-    flags: cleanFlags((raw[dim].flags ?? []) as string[]),
+    score: raw![dim].score as number,
+    confidence: raw![dim].confidence as number,
+    evidence: (raw![dim].evidence ?? []) as string[],
+    flags: cleanFlags((raw![dim].flags ?? []) as string[]),
   }));
 
   // skills가 없으면 skill_match flags 강제 초기화
