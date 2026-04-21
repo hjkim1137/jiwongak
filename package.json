@@ -11,7 +11,9 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "seed": "tsx -r dotenv/config scripts/seed-insights.ts dotenv_config_path=.env.local",
-    "eval": "tsx -r dotenv/config scripts/run-eval.ts dotenv_config_path=.env.local"
+    "eval": "tsx -r dotenv/config scripts/run-eval.ts dotenv_config_path=.env.local",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
@@ -27,12 +29,17 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@tanstack/react-query-devtools": "^5.99.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "15.5.15",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
     "prettier": "^3.8.2",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",

@@ -1,0 +1,263 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AnalysisResultPreview 스냅샷 — 기본 고민각 결과 1`] = `
+<div
+  class="space-y-4"
+>
+  <div
+    class="rounded-2xl border p-8 text-center bg-amber-50 border-amber-200"
+  >
+    <span
+      class="text-5xl"
+    >
+      🤔
+    </span>
+    <h2
+      class="mt-4 text-3xl font-bold text-amber-700"
+    >
+      고민각
+    </h2>
+    <p
+      class="mt-2 font-mono text-4xl font-bold text-amber-700"
+    >
+      71
+      <span
+        class="text-lg font-normal opacity-60"
+      >
+        / 100
+      </span>
+    </p>
+  </div>
+  <div
+    class="rounded-xl border border-neutral-100 p-5"
+  >
+    <h3
+      class="mb-3 text-sm font-medium text-neutral-700"
+    >
+      항목별 점수
+    </h3>
+    <div
+      class="space-y-3"
+    >
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="w-20 shrink-0 text-xs text-neutral-500"
+        >
+          스킬 매칭
+        </span>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-neutral-100"
+          >
+            <div
+              class="h-full rounded-full bg-neutral-700 transition-all"
+              style="width: 88%;"
+            />
+          </div>
+        </div>
+        <span
+          class="w-8 text-right font-mono text-xs text-neutral-500"
+        >
+          88
+        </span>
+      </div>
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="w-20 shrink-0 text-xs text-neutral-500"
+        >
+          워라밸
+        </span>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-neutral-100"
+          >
+            <div
+              class="h-full rounded-full bg-neutral-700 transition-all"
+              style="width: 45%;"
+            />
+          </div>
+        </div>
+        <span
+          class="w-8 text-right font-mono text-xs text-neutral-500"
+        >
+          45
+        </span>
+      </div>
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="w-20 shrink-0 text-xs text-neutral-500"
+        >
+          성장성
+        </span>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-neutral-100"
+          >
+            <div
+              class="h-full rounded-full bg-neutral-700 transition-all"
+              style="width: 90%;"
+            />
+          </div>
+        </div>
+        <span
+          class="w-8 text-right font-mono text-xs text-neutral-500"
+        >
+          90
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AnalysisResultPreview 스냅샷 — 함정각 (⚫ 경고 포함) 1`] = `
+<div
+  class="space-y-4"
+>
+  <div
+    class="rounded-2xl border p-8 text-center bg-neutral-900 border-neutral-900"
+  >
+    <span
+      class="text-5xl"
+    >
+      ⚫
+    </span>
+    <h2
+      class="mt-4 text-3xl font-bold text-white"
+    >
+      함정각
+    </h2>
+    <p
+      class="mt-2 font-mono text-4xl font-bold text-white"
+    >
+      75
+      <span
+        class="text-lg font-normal opacity-60"
+      >
+        / 100
+      </span>
+    </p>
+  </div>
+  <div
+    class="rounded-xl border border-neutral-100 p-5"
+  >
+    <h3
+      class="mb-3 text-sm font-medium text-neutral-700"
+    >
+      항목별 점수
+    </h3>
+    <div
+      class="space-y-3"
+    >
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="w-20 shrink-0 text-xs text-neutral-500"
+        >
+          스킬 매칭
+        </span>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-neutral-100"
+          >
+            <div
+              class="h-full rounded-full bg-neutral-700 transition-all"
+              style="width: 88%;"
+            />
+          </div>
+        </div>
+        <span
+          class="w-8 text-right font-mono text-xs text-neutral-500"
+        >
+          88
+        </span>
+      </div>
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="w-20 shrink-0 text-xs text-neutral-500"
+        >
+          워라밸
+        </span>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-neutral-100"
+          >
+            <div
+              class="h-full rounded-full bg-neutral-700 transition-all"
+              style="width: 45%;"
+            />
+          </div>
+        </div>
+        <span
+          class="w-8 text-right font-mono text-xs text-neutral-500"
+        >
+          45
+        </span>
+      </div>
+      <div
+        class="flex items-center gap-3"
+      >
+        <span
+          class="w-20 shrink-0 text-xs text-neutral-500"
+        >
+          성장성
+        </span>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-neutral-100"
+          >
+            <div
+              class="h-full rounded-full bg-neutral-700 transition-all"
+              style="width: 90%;"
+            />
+          </div>
+        </div>
+        <span
+          class="w-8 text-right font-mono text-xs text-neutral-500"
+        >
+          90
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="rounded-xl border border-red-200 bg-red-50 p-5"
+  >
+    <h3
+      class="mb-3 text-sm font-medium text-red-700"
+    >
+      ⚠ 주요 위험 요인
+    </h3>
+    <ul
+      class="space-y-1.5"
+    >
+      <li
+        class="text-sm leading-relaxed text-red-700"
+      >
+        ⚫ 위험 신호: 비코어 직군입니다
+      </li>
+    </ul>
+  </div>
+</div>
+`;
