@@ -50,6 +50,8 @@ const EVAL_PROFILE: UserProfile = {
     { name: "Spring Boot", category: "backend", level: 3, years: 2, evidence: "REST API 개발" },
     { name: "Java", category: "backend", level: 3, years: 2, evidence: "백엔드 개발" },
     { name: "PostgreSQL", category: "database", level: 2, years: 1, evidence: "Supabase 운용" },
+    { name: "Zustand", category: "frontend", level: 3, years: 0.5, evidence: "지원각 상태관리" },
+    { name: "TanStack Query", category: "frontend", level: 3, years: 0.5, evidence: "서버 상태 캐싱" },
     { name: "Claude API", category: "ai", level: 3, years: 0.5, evidence: "AI 서비스 개발" },
   ],
 };
