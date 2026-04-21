@@ -12,8 +12,8 @@ type SaveStatus = "saving" | "saved" | "error" | "anonymous";
 export default function DiagnosisResultPage() {
   const { result, jobCategory, careerStage, answers, reset } =
     useDiagnosisStore();
-  // "saving"으로 시작 → 첫 렌더부터 스피너 표시, 카드 플래시 없음
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("saving");
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   // 로그인 확인 + 자동 저장
   useEffect(() => {
@@ -31,6 +31,7 @@ export default function DiagnosisResultPage() {
           return;
         }
 
+        setUserEmail(u.email ?? null);
         const res = await saveProfile({
           userId: u.id,
           jobCategory: jobCategory!,
@@ -91,7 +92,15 @@ export default function DiagnosisResultPage() {
         {/* 저장 상태 (saved / error / anonymous) */}
         <div className="text-center text-sm">
           {saveStatus === "saved" && (
-            <span className="text-green-600">프로필이 저장되었습니다</span>
+            <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-left">
+              <p className="text-sm font-medium text-green-700">프로필 저장 완료</p>
+              {userEmail && (
+                <p className="mt-0.5 text-xs text-neutral-500">{userEmail}</p>
+              )}
+              <p className="mt-2 text-xs leading-relaxed text-neutral-500">
+                이제 공고를 분석하면 내 스킬·경력·라이프스타일 기준으로 적합도를 계산해드려요
+              </p>
+            </div>
           )}
           {saveStatus === "error" && (
             <span className="text-red-500">저장 중 오류가 발생했습니다</span>
@@ -106,7 +115,7 @@ export default function DiagnosisResultPage() {
                   const supabase = getBrowserClient();
                   await supabase.auth.signInWithOAuth({
                     provider: "google",
-                    options: { redirectTo: `${window.location.origin}/auth/callback` },
+                    options: { redirectTo: `${window.location.origin}/auth/callback?next=/diagnosis/result` },
                   });
                 }}
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"

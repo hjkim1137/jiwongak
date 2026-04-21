@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { JobCategory } from "@/types/analysis";
 import type {
   CareerStage,
@@ -46,7 +47,9 @@ type DiagnosisState = {
 
 const TOTAL_STEPS = 1 + QUESTION_IDS.length; // Q0 + Q1~Q8 = 9
 
-export const useDiagnosisStore = create<DiagnosisState>((set, get) => ({
+export const useDiagnosisStore = create<DiagnosisState>()(
+  persist(
+    (set, get) => ({
   jobCategory: null,
   careerStage: null,
   answers: {},
@@ -104,4 +107,10 @@ export const useDiagnosisStore = create<DiagnosisState>((set, get) => ({
     const complete = QUESTION_IDS.every((qId) => answers[qId] !== undefined);
     return complete ? (answers as DiagnosisAnswers) : null;
   },
-}));
+    }),
+    {
+      name: "diagnosis-store",
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
