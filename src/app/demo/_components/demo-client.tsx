@@ -44,6 +44,9 @@ export function DemoClient() {
         <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide">예시 공고</p>
         <p className="mt-1 font-semibold text-neutral-800">{demo.position}</p>
         <p className="text-sm text-neutral-500">{demo.companyType}</p>
+        <span className="mt-2 inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-500">
+          {demo.postingCategory}
+        </span>
         <p className="mt-2 text-xs text-neutral-400 italic">{demo.scenario}</p>
       </div>
 
