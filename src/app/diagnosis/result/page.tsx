@@ -92,7 +92,7 @@ export default function DiagnosisResultPage() {
         {/* 저장 상태 (saved / error / anonymous) */}
         <div className="text-center text-sm">
           {saveStatus === "saved" && (
-            <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-left">
+            <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-center">
               <p className="text-sm font-medium text-green-700">프로필 저장 완료</p>
               {userEmail && (
                 <p className="mt-0.5 text-xs text-neutral-500">{userEmail}</p>
