@@ -23,6 +23,15 @@ const client = new Anthropic();
 
 const DIMENSIONS: Dimension[] = ["skill_match", "wlb", "career_ceiling"];
 
+const LIFESTYLE_TYPE_KO: Record<string, string> = {
+  njob_lifer: "워라밸+사이드 양립형",
+  growth_challenger: "성장형 도전자",
+  jumper: "이직 점프형",
+  stable_wlb: "안정·WLB 중시",
+  founder_to_be: "창업 지향",
+  balanced: "균형형",
+};
+
 function dimensionSchema(name: string) {
   return {
     type: "object" as const,
@@ -83,7 +92,7 @@ function buildProfilePrompt(profile: UserProfile): string {
 # 사용자 프로필
 - 경력: ${profile.career_years ?? "미입력"}년
 - 현재 직무: ${profile.current_position ?? "미입력"}
-- 라이프스타일 타입: ${profile.lifestyle_type}
+- 라이프스타일 타입: ${LIFESTYLE_TYPE_KO[profile.lifestyle_type] ?? profile.lifestyle_type}
 - 직군: ${profile.job_category ?? "미입력"}
 
 # 사용자 보유 스킬

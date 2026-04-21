@@ -6,6 +6,7 @@ import type { AnalysisResult } from "@/types/analysis";
 import { AnalysisResultPreview } from "./analysis-result-preview";
 
 const MIN_LENGTH = 50;
+const URL_PATTERN = /^https?:\/\/\S+$/;
 
 async function fetchAnalysis(rawText: string): Promise<AnalysisResult> {
   const res = await fetch("/api/analyze", {
@@ -22,6 +23,7 @@ async function fetchAnalysis(rawText: string): Promise<AnalysisResult> {
 
 export function AnalyzeForm() {
   const [text, setText] = useState("");
+  const [urlError, setUrlError] = useState(false);
 
   const mutation = useMutation({ mutationFn: fetchAnalysis });
 
@@ -29,7 +31,17 @@ export function AnalyzeForm() {
     e.preventDefault();
     const trimmed = text.trim();
     if (trimmed.length < MIN_LENGTH) return;
+    if (URL_PATTERN.test(trimmed)) {
+      setUrlError(true);
+      return;
+    }
+    setUrlError(false);
     mutation.mutate(trimmed);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+    if (urlError) setUrlError(false);
   };
 
   const isDisabled = text.trim().length < MIN_LENGTH || mutation.isPending;
@@ -47,7 +59,7 @@ export function AnalyzeForm() {
           <textarea
             id="posting"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleChange}
             placeholder="채용공고 전문을 붙여넣어 주세요&#10;&#10;회사명, 직무 설명, 자격 요건, 우대 사항 등을 포함하면 더 정확한 분석이 가능합니다"
             rows={14}
             disabled={mutation.isPending}
@@ -77,6 +89,13 @@ export function AnalyzeForm() {
         <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-8 text-center">
           <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-700" />
           <p className="text-sm font-medium text-neutral-700">공고 분석 중</p>
+        </div>
+      )}
+
+      {/* URL 입력 에러 */}
+      {urlError && (
+        <div className="rounded-xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-700">
+          링크는 분석할 수 없어요. 채용공고 전문(텍스트)을 복사해서 붙여넣어 주세요.
         </div>
       )}
 
