@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "seed": "tsx -r dotenv/config scripts/seed-insights.ts dotenv_config_path=.env.local"
+    "seed": "tsx -r dotenv/config scripts/seed-insights.ts dotenv_config_path=.env.local",
+    "eval": "tsx -r dotenv/config scripts/run-eval.ts dotenv_config_path=.env.local"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
