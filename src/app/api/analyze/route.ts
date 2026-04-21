@@ -23,7 +23,7 @@ function hashText(text: string): string {
   return createHash("sha256").update(text.trim()).digest("hex");
 }
 
-async function getUser(request: NextRequest) {
+async function getUser() {
   const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -69,7 +69,8 @@ async function loadProfile(
     .select("*")
     .eq("user_id", userId);
 
-  const careerStage = (profile.diagnosis_answers as any)?.q0?.careerStage as
+  const diagAnswers = profile.diagnosis_answers as Record<string, { careerStage?: string }> | null;
+  const careerStage = diagAnswers?.q0?.careerStage as
     | "entry"
     | "junior"
     | "senior"
@@ -82,12 +83,12 @@ async function loadProfile(
     current_position: profile.current_position,
     lifestyle_type: profile.lifestyle_type ?? "balanced",
     job_category: profile.job_category,
-    skills: (skills ?? []).map((s: any) => ({
+    skills: (skills ?? []).map((s: { name: string; category: string; level: number; years: number | null; evidence: string | null }) => ({
       name: s.name,
       category: s.category,
       level: s.level,
-      years: s.years,
-      evidence: s.evidence,
+      years: s.years ?? undefined,
+      evidence: s.evidence ?? undefined,
     })),
   };
 }
@@ -112,7 +113,7 @@ export async function POST(request: NextRequest) {
     }
 
     const adminClient = getAdminClient();
-    const { user } = await getUser(request);
+    const { user } = await getUser();
     const hash = hashText(rawText);
 
     // 캐시 확인 (로그인 사용자만)

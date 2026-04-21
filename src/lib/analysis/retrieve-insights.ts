@@ -7,7 +7,21 @@
  * 4. specificity 가중 후처리 → top-k 반환
  */
 
-import type { ParsedPosting, RetrievedInsight } from "@/types/analysis";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { ParsedPosting, RetrievedInsight, InsightType, Severity } from "@/types/analysis";
+
+interface InsightRow {
+  id: string;
+  slug: string;
+  insight_type: InsightType;
+  severity: Severity;
+  title: string;
+  content: string;
+  similarity: number;
+  industry: string | null;
+  job_category: string | null;
+  job_function: string | null;
+}
 
 // ── Voyage 쿼리 임베딩 ──
 
@@ -68,7 +82,7 @@ function calcSpecificity(
 
 export async function retrieveInsights(
   posting: ParsedPosting,
-  supabase: { rpc: Function },
+  supabase: SupabaseClient,
   topK = 5,
 ): Promise<RetrievedInsight[]> {
   // 쿼리 텍스트: 산업 + 직무 + 명시 요구사항 상위 5개
@@ -95,7 +109,7 @@ export async function retrieveInsights(
   if (error) throw new Error(`match_insights RPC error: ${error.message}`);
   if (!data || data.length === 0) return [];
 
-  return (data as any[])
+  return (data as InsightRow[])
     .map((row) => {
       const specificity = calcSpecificity(row, posting);
       return {

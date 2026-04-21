@@ -136,11 +136,18 @@ WLB 신호: ${posting.raw_signals?.wlb_keywords?.join(", ") || "없음"}
 ${posting.raw_signals?.salary_mentioned ? `연봉: ${posting.raw_signals.salary_mentioned}만원` : ""}`;
 }
 
+interface DimRaw {
+  score: number;
+  confidence: number;
+  evidence: string[];
+  flags: string[];
+}
+
 async function callScoreAPI(
   profilePrompt: string,
   insightsPrompt: string,
   posting: ParsedPosting,
-): Promise<{ raw: Record<string, any>; usage: Record<string, unknown> }> {
+): Promise<{ raw: Record<string, DimRaw>; usage: Record<string, unknown> }> {
   const res = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 1024,
@@ -166,7 +173,7 @@ async function callScoreAPI(
   );
   if (!toolUse) throw new Error("scoreDimensions: Tool use not returned from Claude");
 
-  const raw = toolUse.input as Record<string, any>;
+  const raw = toolUse.input as Record<string, DimRaw>;
   const missingDims = DIMENSIONS.filter((d) => !raw[d]);
   if (missingDims.length > 0) {
     console.warn(`[scoreDimensions] Missing dimensions: ${missingDims.join(", ")}. raw keys: ${Object.keys(raw).join(", ")}`);
@@ -185,7 +192,7 @@ export async function scoreDimensions(
   const insightsPrompt = buildInsightsPrompt(insights);
 
   // 위촉직·비정형 공고에서 Claude가 간헐적으로 dimension 누락 → 최대 2회 재시도
-  let raw: Record<string, any> | null = null;
+  let raw: Record<string, DimRaw> | null = null;
   let usage: Record<string, unknown> = {};
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
