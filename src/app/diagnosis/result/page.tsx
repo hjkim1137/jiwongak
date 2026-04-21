@@ -54,11 +54,11 @@ export default function DiagnosisResultPage() {
     return (
       <main className="flex min-h-screen items-center justify-center font-sans">
         {!result ? (
-          <div className="text-center">
+          <div className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-8 text-center shadow-sm">
             <p className="text-neutral-500">진단 결과가 없습니다</p>
             <Link
-              href="/diagnosis"
-              className="mt-4 inline-block text-sm text-neutral-900 underline"
+              href="/"
+              className="mt-4 inline-block rounded-lg bg-neutral-900 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
             >
               진단하러 가기
             </Link>
