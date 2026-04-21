@@ -27,6 +27,12 @@ export default function Home() {
           공고 분석하기
         </Link>
       </div>
+      <Link
+        href="/demo"
+        className="text-xs text-neutral-400 underline underline-offset-2 hover:text-neutral-600"
+      >
+        분석 결과 미리보기 →
+      </Link>
     </main>
   );
 }
