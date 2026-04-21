@@ -25,3 +25,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   word-break: keep-all;
 }
+
+button,
+[role="button"],
+a,
+label[for],
+select,
+summary {
+  cursor: pointer;
+}
