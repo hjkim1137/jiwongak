@@ -818,6 +818,207 @@
       "content": "건축사 자격 보유자는 건축사법에 따라 건축물 설계 및 공사 감리를 독점적으로 수행 가능. 건축사사무소 개설·취업, 건설사 설계팀, 공공기관(LH·SH·지자체 건축직) 등이 주요 진출 경로. 인테리어·리모델링 시장 성장으로 소규모 건축사사무소 수요도 증가 추세. 도시정비(재건축·재개발) 사업 확대로 건축기획·설계 역량이 있는 건축사의 수요가 안정적으로 유지됨. 프로젝트 납기 전후 업무 강도 편차가 있는 구조.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "ml-research-vs-applied-ceiling",
+      "job_category": "IT개발·데이터",
+      "job_function": "AI·ML 엔지니어",
+      "insight_type": "career_ceiling",
+      "severity": "warn",
+      "title": "Research ML과 Applied ML은 커리어 경로가 분리됨",
+      "content": "ML 엔지니어 포지션은 크게 Research(논문 중심)와 Applied(제품 통합 중심)로 분리. Research 트랙은 석·박사 학위 + 논문 실적이 실질적 진입 요건이며 학위 없이는 상위 연구소(NAVER AI, Kakao Brain, 삼성리서치 등) 이직이 구조적으로 어렵다. Applied ML 엔지니어는 학위 요건이 낮고 이직 시장이 넓지만, 같은 Applied 경력이어도 도메인(의료AI·자율주행·추천시스템)에 따라 전이 가능성이 달라진다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "mlops-llmops-scarcity",
+      "job_category": "IT개발·데이터",
+      "job_function": "AI·ML 엔지니어",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "MLOps·LLMOps 경험자는 공급이 수요를 따라가지 못함",
+      "content": "ML 파이프라인 자동화(Kubeflow, MLflow, Airflow), 모델 서빙 최적화(Triton, vLLM, TorchServe), 피처 스토어 운영 경험은 ML 엔지니어와 인프라 엔지니어 사이 교차점에 위치해 인재 풀이 작다. LLM 도입 기업이 급증하면서 LLM 서빙 비용 최적화·프롬프트 파이프라인 관리(LLMOps) 역량에 대한 수요가 공급을 크게 초과하는 상태. 같은 연차 대비 연봉 협상력이 높은 편.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "applied-ml-domain-lockin",
+      "job_category": "IT개발·데이터",
+      "job_function": "AI·ML 엔지니어",
+      "insight_type": "lockin_risk",
+      "severity": "warn",
+      "title": "도메인 특화 AI 경력은 타 도메인 이직 시 재검증 필요",
+      "content": "의료 AI(영상 진단, 임상 데이터), 자율주행(센서 퓨전, 3D 인식), 금융 AI(신용 스코어링, 이상 탐지) 등 도메인 특화 ML 경력은 해당 산업 내 이직에서는 프리미엄이 붙지만, 타 도메인으로 전환 시 도메인 지식 재학습 비용이 발생한다. 반면 추천 시스템·검색·광고 최적화 경험은 커머스·콘텐츠·광고 등 다양한 산업으로 전이가 용이한 편.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "devops-oncall-culture",
+      "job_category": "IT개발·데이터",
+      "job_function": "DevOps·인프라",
+      "insight_type": "culture_pattern",
+      "severity": "warn",
+      "title": "DevOps·SRE 포지션은 온콜 의무가 일반적",
+      "content": "인프라·SRE 포지션은 서비스 가용성 유지 책임으로 인해 야간·주말 온콜 대응이 빌드인된 경우가 많다. 장애 발생 시 즉각 대응 의무가 있으며, 온콜 수당이 지급되는 곳도 있지만 실질적 WLB에 영향을 준다. 포지션 공고에 온콜 언급이 없어도 트래픽 규모가 큰 서비스(커머스, 핀테크, 게임)의 인프라팀은 사실상 온콜 체계를 운영하는 경우가 많으므로 면접 시 확인이 필요하다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "devops-cloud-vendor-lockin",
+      "job_category": "IT개발·데이터",
+      "job_function": "DevOps·인프라",
+      "insight_type": "lockin_risk",
+      "severity": "warn",
+      "title": "단일 클라우드 벤더 경력은 이직 폭을 좁힐 수 있음",
+      "content": "AWS 전용 경력자는 GCP·Azure 메인 환경으로의 이직 시 재학습 비용이 발생하며, 반대도 마찬가지다. 이직 시장에서 멀티클라우드 경험과 벤더 중립적 도구(Kubernetes, Terraform, Helm) 숙련도가 점점 더 중요하게 평가된다. 국내 스타트업 대부분이 AWS 기반이므로 AWS 경력 자체가 불리하지는 않지만, 대기업·공공 프로젝트는 NCP·KT Cloud 등 국내 벤더를 요구하는 경우도 있어 주의가 필요하다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "platform-engineering-scarcity",
+      "job_category": "IT개발·데이터",
+      "job_function": "DevOps·인프라",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "Kubernetes·플랫폼 엔지니어링 경험자는 수요 초과 상태",
+      "content": "쿠버네티스 클러스터 운영, Helm 차트 관리, GitOps(ArgoCD/Flux), 내부 개발자 플랫폼(IDP) 구축 경험을 갖춘 플랫폼 엔지니어는 국내 시장에서 공급이 부족한 상태다. 서비스 메시(Istio), 옵저버빌리티 스택(Prometheus·Grafana·OpenTelemetry) 운영 경험이 더해지면 대형 서비스 기업에서 선호도가 높아진다. 인프라 운영자와 달리 개발자 생산성까지 책임지는 포지션 특성상 연봉 밴드가 백엔드 시니어 수준까지 상승하는 추세.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "cross-platform-app-market-gap",
+      "job_category": "IT개발·데이터",
+      "job_function": "앱 개발",
+      "insight_type": "lockin_risk",
+      "severity": "warn",
+      "title": "Flutter·RN 경력은 네이티브 대비 이직 선택지가 좁음",
+      "content": "Flutter·React Native 경력은 크로스플랫폼 포지션 내에서는 이동성이 있으나, 네이티브(iOS Swift·Android Kotlin) 포지션으로의 전환 시 재검증 요구를 받는 경우가 많다. 국내 대형 앱 서비스(카카오, 네이버, 토스 등)는 여전히 네이티브 개발을 선호하는 편이다. 단 Flutter는 2024년 이후 스타트업·외국계 중심 채용이 늘었고, 글로벌 원격 이직을 목표로 할 경우 상대적으로 유리한 측면도 있다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "ios-swift-supply-shortage",
+      "job_category": "IT개발·데이터",
+      "job_function": "앱 개발",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "iOS 개발자는 Android 대비 공급이 더 희소",
+      "content": "국내 iOS Swift 개발자는 Android Kotlin 개발자 대비 인재 풀이 작아 같은 연차 기준으로 연봉 협상력이 높은 경향이 있다. SwiftUI, Combine, Swift Concurrency(async/await) 등 최신 Swift 스택 경험자는 수요가 공급보다 많다. 단 iOS는 Apple 정책 변경(앱 심사, API 제한) 의존도가 높아 특정 기능 구현 시 제약이 발생하는 리스크가 있으며, 이를 경험한 개발자는 포트폴리오에서 문제 해결 방식을 구체적으로 어필하는 것이 유리하다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "mobile-only-ceiling",
+      "job_category": "IT개발·데이터",
+      "job_function": "앱 개발",
+      "insight_type": "career_ceiling",
+      "severity": "warn",
+      "title": "앱 전문 경력만으로는 시니어 이후 선택지가 좁아질 수 있음",
+      "content": "앱 개발 전문 경력은 5년차까지는 이직 시장이 원활하나, 이후 서버·인프라·데이터 영역으로 확장하지 않으면 포지션 선택폭이 줄어드는 경향이 있다. 특히 모바일 전담 팀이 없어지고 풀스택·BFF(Backend For Frontend) 역할까지 요구하는 스타트업이 늘면서, 백엔드 기초(REST API 설계, DB, 인증)나 DevOps 기초(CI/CD, 앱 배포 파이프라인)를 함께 갖춘 개발자의 선호도가 높아지고 있다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "embedded-hardware-domain-lockin",
+      "job_category": "IT개발·데이터",
+      "job_function": "임베디드·펌웨어",
+      "insight_type": "lockin_risk",
+      "severity": "critical",
+      "title": "임베디드 경력은 하드웨어·도메인 동시 락인으로 이직 범위가 매우 좁음",
+      "content": "임베디드·펌웨어 개발자는 C/C++ 언어와 특정 MCU(STM32, NXP, TI 등) 또는 OS(FreeRTOS, Zephyr, Linux BSP)에 동시에 묶이는 구조다. 자동차(AUTOSAR), 산업 제어(IEC 61131), 의료기기(IEC 62304) 등 도메인별로 인증 체계까지 다르기 때문에 도메인 간 이직 장벽이 소프트웨어 직군 중 가장 높다. 일반 소프트웨어 기업(SaaS, 앱, 웹)으로의 전환은 실질적으로 재시작에 가까우며, 임베디드 내에서도 산업별 세분화가 커 도메인 선택이 장기 커리어를 결정하는 경향이 있다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "embedded-safety-cert-scarcity",
+      "job_category": "IT개발·데이터",
+      "job_function": "임베디드·펌웨어",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "안전 인증 기반 임베디드 경험은 자동차·의료 도메인에서 고희소",
+      "content": "MISRA-C, AUTOSAR 아키텍처, ISO 26262(자동차 기능 안전), IEC 62304(의료기기 SW) 기반 개발 경험자는 해당 도메인 내에서 희소성이 매우 높고, 완성차·Tier1 서플라이어·의료기기 기업에서 연봉 프리미엄이 붙는 경우가 많다. 자율주행 소프트웨어 확산으로 차량용 임베디드 개발자 수요는 지속 증가 추세이며, 특히 ECU 소프트웨어·OTA 업데이트·V2X 통신 경험자는 국내외 시장에서 모두 선호도가 높다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "game-non-game-cross-barrier",
+      "job_category": "IT개발·데이터",
+      "job_function": "게임 개발",
+      "insight_type": "lockin_risk",
+      "severity": "warn",
+      "title": "게임 개발 경력은 비게임 IT 이직 시 재검증 요구를 받는 경향",
+      "content": "Unity·Unreal 엔진 중심의 게임 클라이언트 경력은 게임 업계 내에서는 강점이지만, SaaS·핀테크·커머스 등 일반 IT 기업 이직 시 웹/앱 개발 경험 부족으로 재검증 요구가 발생하는 경우가 많다. C# (Unity) 또는 C++ (Unreal) 역량 자체는 인정받더라도 협업 도구·배포 파이프라인·웹 서비스 아키텍처 경험이 적은 점이 진입 장벽이 된다. 게임 엔진 외 기술(Python, TypeScript, 클라우드 서비스)을 병행 학습하거나 게임 서버 백엔드·엔진 툴 개발 등 교차 역량을 쌓아두는 것이 이직 옵션을 넓히는 데 유리하다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "game-crunch-culture-risk",
+      "job_category": "IT개발·데이터",
+      "job_function": "게임 개발",
+      "insight_type": "culture_pattern",
+      "severity": "warn",
+      "title": "게임 업계 크런치 문화는 출시 전후로 집중됨",
+      "content": "게임 업계는 출시(런칭) 전 수개월과 라이브 서비스 대형 업데이트 전후에 집중적인 초과 근무가 발생하는 구조가 잔존한다. 주요 대형사(넥슨, 엔씨, 크래프톤 등)는 제도적으로 개선 중이나, 중소·인디 스튜디오는 여전히 비정형적인 강도를 요구하는 경우가 많다. 공고에 'WLB'를 강조하더라도 프로젝트 단계(알파/베타/런칭)에 따라 실제 근무 강도가 크게 달라지므로, 면접에서 현재 개발 단계와 출시 일정을 확인하는 것이 중요하다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "game-graphics-engineer-scarcity",
+      "job_category": "IT개발·데이터",
+      "job_function": "게임 개발",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "그래픽스·렌더링 엔지니어는 게임·XR 분야 모두에서 희소",
+      "content": "셰이더 프로그래밍, 렌더 파이프라인 최적화, DirectX/Vulkan/Metal 저수준 그래픽스 경험자는 게임 업계뿐 아니라 XR(메타버스, VR/AR), 자동차 HMI, 디지털 트윈 분야에서도 수요가 늘어나는 추세다. 언리얼 엔진 렌더링 커스터마이징, UE5 Nanite·Lumen 최적화 경험은 특히 국내 대형 게임사와 글로벌 기업에서 높게 평가된다. 이 세부 역량은 일반 게임 클라이언트 개발자와 달리 비게임 분야로의 전이 가능성이 상대적으로 높다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "performance-vs-brand-marketing-gap",
+      "job_category": "마케팅·홍보·조사",
+      "insight_type": "transferability",
+      "severity": "warn",
+      "title": "퍼포먼스 마케터와 브랜드 마케터는 이직 시장이 분리됨",
+      "content": "Meta·Google 광고 운영, GA4·데이터 분석 중심의 퍼포먼스 마케터는 IT SaaS·커머스·핀테크 기업에서 수요가 높고 데이터 리터러시 역량으로 PM·그로스 직군으로의 전환도 비교적 용이하다. 반면 브랜드 스토리텔링·캠페인 기획 중심의 브랜드 마케터는 FMCG·유통·대기업 인하우스 시장에서 강점이 있으며, IT 기업 이직 시 데이터 기반 사고 부족을 지적받는 경우가 있다. 두 트랙은 요구 역량이 달라 전환 시 경력 인정 범위가 제한될 수 있다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "marketing-agency-inhouse-gap",
+      "job_category": "마케팅·홍보·조사",
+      "insight_type": "career_ceiling",
+      "severity": "warn",
+      "title": "대행사 마케팅 경력은 인하우스 이직 시 연봉·직급 재조정이 발생하는 경향",
+      "content": "광고·PR 대행사 마케터는 다양한 클라이언트와 캠페인 경험을 쌓을 수 있지만, 인하우스(자사 브랜드) 마케팅팀으로 이직 시 같은 연차 대비 직급·연봉이 낮게 책정되는 경우가 많다. 인하우스는 하나의 브랜드를 깊이 이해하고 데이터 기반으로 운영하는 역량을 요구하는 반면, 대행사 경력은 다건 병행·제안서 중심으로 인식되는 경향이 있다. 인하우스 이직을 목표로 할 경우, 대행사 재직 중 특정 브랜드 KPI 개선 사례를 수치로 정리해두는 것이 협상력을 높이는 데 유리하다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+
+    {
+      "slug": "it-planning-vs-biz-planning-ceiling",
+      "job_category": "기획·전략",
+      "insight_type": "career_ceiling",
+      "severity": "warn",
+      "title": "IT 기획(PM·PO)과 경영 기획은 이직 시장이 완전히 분리됨",
+      "content": "IT 기업의 PM·PO 포지션과 대기업·금융사의 경영기획·전략기획 직군은 요구 역량과 채용 경로가 다르다. PM·PO는 기능 정의·데이터 분석·개발팀 협업 역량이 핵심이며 IT 서비스 업계 내에서 이동성이 높다. 반면 경영기획은 재무 모델링·경영진 보고·사업 포트폴리오 관리가 중심이고 대기업 내부 발탁 비율이 높아 외부 이직 경로가 좁다. 두 트랙의 직함이 모두 '기획'이어서 혼동하기 쉬우나, 이직 지원 시 해당 기업이 어느 트랙을 원하는지 JD를 면밀히 확인해야 한다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "startup-pm-enterprise-planning-gap",
+      "job_category": "기획·전략",
+      "insight_type": "transferability",
+      "severity": "warn",
+      "title": "스타트업 PM 경력은 대기업 기획직 이직 시 인식 격차가 존재",
+      "content": "스타트업에서 PM·기획 경력을 쌓은 경우, 대기업 기획직 이직 시 '체계적 보고 프로세스·협업 구조 경험 부족'으로 평가받는 경우가 있다. 반대로 대기업 기획 경력자가 스타트업 PM으로 이직할 때는 '실행력·데이터 기반 의사결정 경험 부족'이 지적된다. 양방향 모두 전환 비용이 존재하며, 직전 직장보다 회사 규모나 문화가 크게 달라지는 이직은 적응 기간을 충분히 감안해야 한다.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
     }
   ]
 }

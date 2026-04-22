@@ -54,7 +54,7 @@ interface SeedFile {
 
 const VOYAGE_MODEL = "voyage-3";
 const VOYAGE_DIM = 1024;
-const BATCH_SIZE = 32; // Voyage 권장 batch
+const BATCH_SIZE = 10; // free tier: 3 RPM + 10K TPM 대응 (10 items × ~200 tok = 2K/batch)
 
 async function embedBatch(texts: string[]): Promise<number[][]> {
   const apiKey = process.env.VOYAGE_API_KEY;
@@ -106,15 +106,18 @@ async function main() {
   // 임베딩용 텍스트: title + content (제목이 약한 신호도 추가됨)
   const texts = insights.map((i) => `${i.title}\n\n${i.content}`);
 
-  // 배치로 임베딩
+  // 배치로 임베딩 (rate limit 3 RPM 대응: 배치 간 21초 대기)
   const embeddings: number[][] = [];
   for (let i = 0; i < texts.length; i += BATCH_SIZE) {
     const batch = texts.slice(i, i + BATCH_SIZE);
-    console.log(
-      `Embedding batch ${i / BATCH_SIZE + 1} (${batch.length} items)...`,
-    );
+    const batchNum = i / BATCH_SIZE + 1;
+    const totalBatches = Math.ceil(texts.length / BATCH_SIZE);
+    console.log(`Embedding batch ${batchNum}/${totalBatches} (${batch.length} items)...`);
     const vecs = await embedBatch(batch);
     embeddings.push(...vecs);
+    if (i + BATCH_SIZE < texts.length) {
+      await new Promise((r) => setTimeout(r, 21_000)); // 3 RPM → 20s 간격 (여유 1s)
+    }
   }
 
   // Supabase upsert
