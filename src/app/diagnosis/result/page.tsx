@@ -76,12 +76,12 @@ export default function DiagnosisResultPage() {
   const meta = LIFESTYLE_TYPE_META[result.lifestyleType];
 
   return (
-    <main className="flex min-h-screen flex-col items-center px-4 py-12 font-sans">
+    <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
       <div className="w-full max-w-lg space-y-8">
         {/* 타입 카드 */}
-        <div className="rounded-2xl border border-neutral-200 bg-white p-8 text-center shadow-sm">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-6 sm:p-8 text-center shadow-sm">
           <span className="text-5xl">{meta.emoji}</span>
-          <h1 className="mt-4 text-2xl font-bold text-neutral-900">
+          <h1 className="mt-4 text-xl sm:text-2xl font-bold text-neutral-900">
             {meta.label}
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-neutral-500">
@@ -161,7 +161,7 @@ export default function DiagnosisResultPage() {
               return (
                 <div key={type} className="flex items-center gap-3">
                   <span className="w-5 text-center">{typeMeta.emoji}</span>
-                  <span className="w-32 truncate text-xs text-neutral-500">
+                  <span className="w-24 sm:w-32 truncate text-xs text-neutral-500">
                     {typeMeta.label}
                   </span>
                   <div className="flex-1">

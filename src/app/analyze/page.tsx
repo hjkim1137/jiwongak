@@ -3,7 +3,7 @@ import { AnalyzeForm } from "./_components/analyze-form";
 
 export default function AnalyzePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center px-4 py-12 font-sans">
+    <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
       <div className="w-full max-w-2xl space-y-8">
         {/* 헤더 */}
         <div>

@@ -22,9 +22,9 @@ export default function DiagnosisPage() {
   if (result && !isNavigating) {
     const meta = LIFESTYLE_TYPE_META[result.lifestyleType];
     return (
-      <main className="flex min-h-screen flex-col items-center px-4 py-12 font-sans">
+      <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
         <div className="w-full max-w-lg space-y-6">
-          <div className="rounded-2xl border border-neutral-100 bg-neutral-50 p-8 text-center">
+          <div className="rounded-2xl border border-neutral-100 bg-neutral-50 p-6 sm:p-8 text-center">
             <span className="text-5xl">{meta.emoji}</span>
             <h2 className="mt-4 text-xl font-bold text-neutral-800">{meta.label}</h2>
             <p className="mt-2 text-sm leading-relaxed text-neutral-500">{meta.summary}</p>
@@ -66,7 +66,7 @@ export default function DiagnosisPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center px-4 py-12 font-sans">
+    <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
       <div className="w-full max-w-lg">
         {/* 진행 바 */}
         <ProgressBar current={step} total={totalSteps} />

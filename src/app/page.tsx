@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-8 font-sans">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-10 font-sans">
       <div className="text-center">
         <h1 className="text-4xl font-bold sm:text-6xl">지원각</h1>
         <p className="mt-2 font-mono text-sm text-gray-500">
