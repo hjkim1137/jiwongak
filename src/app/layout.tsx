@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
 
@@ -19,6 +20,46 @@ export const metadata: Metadata = {
     "채용공고를 붙여넣으면 당신의 경력·역량·라이프스타일과 매칭해 지원 적합도와 산업/직무 주의사항을 알려주는 AI 서비스",
 };
 
+function AppHeader() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <Link
+          href="/"
+          className="text-base font-bold text-neutral-900 transition-colors hover:text-neutral-600"
+        >
+          지원각
+        </Link>
+        <nav className="flex items-center gap-6">
+          <Link
+            href="/demo"
+            className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
+          >
+            분석 미리보기
+          </Link>
+          <Link
+            href="/history"
+            className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
+          >
+            내 히스토리
+          </Link>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function AppFooter() {
+  return (
+    <footer className="border-t border-neutral-100">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5 text-xs text-neutral-400">
+        <span className="font-medium">지원각</span>
+        <span>AI 채용공고 적합도 분석 서비스</span>
+      </div>
+    </footer>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,7 +70,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="flex min-h-screen flex-col">
+            <AppHeader />
+            <div className="flex flex-1 flex-col">{children}</div>
+            <AppFooter />
+          </div>
+        </Providers>
       </body>
     </html>
   );
