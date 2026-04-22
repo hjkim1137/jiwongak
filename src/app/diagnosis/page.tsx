@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useDiagnosisStore } from "@/lib/stores/diagnosis-store";
 import { StepQ0 } from "./_components/step-q0";
 import { StepQuestion } from "./_components/step-question";
@@ -24,6 +25,15 @@ export default function DiagnosisPage() {
     return (
       <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
         <div className="w-full max-w-lg space-y-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            홈
+          </Link>
           <div className="rounded-2xl border border-neutral-100 bg-neutral-50 p-6 sm:p-8 text-center">
             <span className="text-5xl">{meta.emoji}</span>
             <h2 className="mt-4 text-xl font-bold text-neutral-800">{meta.label}</h2>
@@ -68,6 +78,17 @@ export default function DiagnosisPage() {
   return (
     <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
       <div className="w-full max-w-lg">
+        {/* 홈으로 */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          홈
+        </Link>
+
         {/* 진행 바 */}
         <ProgressBar current={step} total={totalSteps} />
 

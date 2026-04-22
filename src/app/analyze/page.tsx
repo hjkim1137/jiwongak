@@ -9,9 +9,12 @@ export default function AnalyzePage() {
         <div>
           <Link
             href="/"
-            className="text-sm text-neutral-400 hover:text-neutral-600 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
           >
-            ← 홈
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            홈
           </Link>
           <h1 className="mt-4 text-2xl font-bold text-neutral-900">
             공고 분석
