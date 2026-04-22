@@ -34,7 +34,8 @@ const PARSE_TOOL: Anthropic.Tool = {
       industry: {
         type: "string",
         enum: [...INDUSTRIES],
-        description: "산업 분류",
+        description:
+          "회사가 만들고 판매하는 제품/서비스 기반으로 분류. 사용하는 개발 도구(Sentry, Datadog, Slack, Jira 등)는 무시할 것. 예: Sentry를 모니터링 도구로 사용하는 커머스 회사 → '커머스', DevTools 기업은 개발자 도구를 직접 만들어 판매하는 경우에만 해당",
       },
       sub_industry: { type: "string", description: "세부 산업 (선택)" },
       job_category: {

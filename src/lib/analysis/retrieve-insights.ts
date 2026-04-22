@@ -125,8 +125,9 @@ export async function retrieveInsights(
       } satisfies RetrievedInsight;
     })
     // specificity=0.2는 산업·직군 전부 불일치 (완전 무관한 인사이트) → 제외
+    // final_score 최솟값: specificity가 높아도 similarity가 낮으면 엉뚱한 인사이트가 선택되는 것 방지
     // 관련 시드가 없으면 빈 배열 반환 (엉뚱한 인사이트 인용보다 낫다)
-    .filter((r) => r.specificity > 0.2)
+    .filter((r) => r.specificity > 0.2 && r.final_score >= 0.35)
     .sort((a, b) => b.final_score - a.final_score)
     .slice(0, topK);
 }

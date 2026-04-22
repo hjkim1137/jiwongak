@@ -87,10 +87,14 @@ function buildProfilePrompt(profile: UserProfile): string {
     .map((s) => `- ${s.name} (${s.category}, Lv${s.level}, ${s.years ?? "?"}년)${s.evidence ? ` — ${s.evidence}` : ""}`)
     .join("\n");
 
+  const careerLabel = profile.career_stage
+    ? ({ entry: "신입", junior: "1~3년", senior: "4년 이상" } as const)[profile.career_stage]
+    : `${profile.career_years ?? "미입력"}년`;
+
   return `당신은 채용 적합도 분석 AI입니다.
 
 # 사용자 프로필
-- 경력: ${profile.career_years ?? "미입력"}년
+- 경력: ${careerLabel}
 - 현재 직무: ${profile.current_position ?? "미입력"}
 - 라이프스타일 타입: ${LIFESTYLE_TYPE_KO[profile.lifestyle_type] ?? profile.lifestyle_type}
 - 직군: ${profile.job_category ?? "미입력"}

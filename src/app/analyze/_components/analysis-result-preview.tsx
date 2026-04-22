@@ -2,6 +2,7 @@
 
 import { LIFESTYLE_TYPE_META, CAREER_STAGE_META } from "@/types/diagnosis";
 import type { AnalysisResult, Label, Severity } from "@/types/analysis";
+import { getBrowserClient } from "@/lib/supabase";
 
 export const LABEL_META: Record<
   Label,
@@ -71,10 +72,10 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
       )}
 
       {/* 라벨 + 종합 점수 */}
-      <div className={`rounded-2xl border p-8 text-center ${meta.bg} ${meta.border}`}>
+      <div className={`rounded-2xl border p-6 sm:p-8 text-center ${meta.bg} ${meta.border}`}>
         <span className="text-5xl">{meta.emoji}</span>
-        <h2 className={`mt-4 text-3xl font-bold ${meta.color}`}>{result.label}</h2>
-        <p className={`mt-2 font-mono text-4xl font-bold ${meta.color}`}>
+        <h2 className={`mt-4 text-2xl sm:text-3xl font-bold ${meta.color}`}>{result.label}</h2>
+        <p className={`mt-2 font-mono text-3xl sm:text-4xl font-bold ${meta.color}`}>
           {result.composite_score}
           <span className="text-lg font-normal opacity-60">/ 100</span>
         </p>
@@ -117,12 +118,24 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
             <p className="mt-1 text-xs text-neutral-500">
               진단을 완료하고 로그인하면 내 스킬·경력·라이프스타일 기반으로 더 정확한 적합도를 받아볼 수 있어요.
             </p>
-            <a
-              href="/diagnosis"
-              className="mt-3 flex items-center justify-center rounded-lg bg-neutral-900 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+            <button
+              onClick={async () => {
+                const supabase = getBrowserClient();
+                await supabase.auth.signInWithOAuth({
+                  provider: "google",
+                  options: { redirectTo: `${window.location.origin}/auth/callback?next=/analyze` },
+                });
+              }}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-neutral-900 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
             >
-              프로필 저장하고 정확한 매칭 결과 받기 ➡️
-            </a>
+              <svg className="h-4 w-4" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              Google로 로그인하고 정확한 매칭 받기
+            </button>
           </div>
         )}
       </div>
