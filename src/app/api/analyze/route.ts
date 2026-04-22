@@ -17,6 +17,7 @@ import { retrieveInsights } from "@/lib/analysis/retrieve-insights";
 import { scoreDimensions } from "@/lib/analysis/score-dimensions";
 import { composeResult } from "@/lib/analysis/compose-result";
 import { getAdminClient } from "@/lib/supabase";
+import { checkRateLimit } from "@/lib/rate-limit";
 import type { UserProfile } from "@/types/analysis";
 
 function hashText(text: string): string {
@@ -114,6 +115,23 @@ export async function POST(request: NextRequest) {
 
     const adminClient = getAdminClient();
     const { user } = await getUser();
+
+    // Rate limit: 비회원 1시간 10회 / 로그인 하루 50회
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      request.headers.get("x-real-ip") ??
+      "unknown";
+    const { success, retryAfter } = await checkRateLimit(user?.id, ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: "요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요." },
+        {
+          status: 429,
+          headers: retryAfter ? { "Retry-After": String(retryAfter) } : {},
+        },
+      );
+    }
+
     const hash = hashText(rawText);
 
     // 캐시 확인 (로그인 사용자만)
