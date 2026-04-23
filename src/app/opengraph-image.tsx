@@ -1,29 +1,15 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt = "지원각 — 이 공고 지원각이야?";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-async function loadFont(): Promise<ArrayBuffer> {
-  const text =
-    "지원각이공고야?채용붙여넣으면경력역량라이프스타일기준적합도분석AI서비스결과스킬매칭워라밸성장";
-  const css = await fetch(
-    `https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&text=${encodeURIComponent(text)}&display=swap`,
-    {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-      },
-    }
-  ).then((r) => r.text());
-
-  const fontUrl = css.match(/src: url\((.+?)\) format\('woff2'\)/)?.[1];
-  if (!fontUrl) throw new Error("Font URL not found");
-  return fetch(fontUrl).then((r) => r.arrayBuffer());
-}
-
 export default async function Image() {
-  const font = await loadFont();
+  const font = await readFile(
+    path.join(process.cwd(), "public/fonts/NotoSansKR-Bold.ttf"),
+  );
 
   return new ImageResponse(
     (
