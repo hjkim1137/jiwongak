@@ -16,9 +16,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000")
+  ),
   title: "지원각 (Jiwongak) — 이 공고 지원각이야?",
   description:
     "채용공고를 붙여넣으면 당신의 경력·역량·라이프스타일과 매칭해 지원 적합도와 산업/직무 주의사항을 알려주는 AI 서비스",
+  openGraph: {
+    title: "지원각 — 이 공고 지원각이야?",
+    description:
+      "채용공고를 붙여넣으면 경력·역량·라이프스타일 기준으로 지원 적합도를 AI가 분석해드려요",
+    siteName: "지원각",
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "지원각 — 이 공고 지원각이야?",
+    description:
+      "채용공고를 붙여넣으면 경력·역량·라이프스타일 기준으로 지원 적합도를 AI가 분석해드려요",
+  },
 };
 
 async function AppHeader() {
