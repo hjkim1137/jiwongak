@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnalysisResultPreview, LABEL_META } from "@/app/analyze/_components/analysis-result-preview";
 import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
 import type { ApplicationRow } from "../page";
@@ -33,64 +34,90 @@ function ScoreBadge({ score }: { score: number }) {
 
 type CardTab = "result" | "posting";
 
-function HistoryCard({ app }: { app: ApplicationRow }) {
+type HistoryCardProps = {
+  app: ApplicationRow;
+  isDeleting: boolean;
+  onDelete: (applicationId: string) => Promise<void>;
+};
+
+function HistoryCard({ app, isDeleting, onDelete }: HistoryCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [tab, setTab] = useState<CardTab>("result");
   const meta = LABEL_META[app.label as keyof typeof LABEL_META];
 
+  const handleDelete = async () => {
+    const shouldDelete = window.confirm(
+      `${app.company} 분석 기록을 삭제할까요? 이 작업은 되돌릴 수 없습니다.`,
+    );
+    if (!shouldDelete) return;
+
+    await onDelete(app.id);
+  };
+
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white overflow-hidden">
-      <button
-        className="w-full text-left px-5 py-4 flex items-center gap-3 hover:bg-neutral-50 transition-colors"
-        onClick={() => setExpanded((prev) => !prev)}
-        aria-expanded={expanded}
-      >
-        <span className="text-xl shrink-0">{meta?.emoji ?? "📄"}</span>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-neutral-900 truncate">{app.company}</span>
-            {app.is_stale && (
-              <span className="text-xs px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 shrink-0">
-                재분석 필요
-              </span>
-            )}
-          </div>
-          <p className="mt-0.5 text-xs text-neutral-500 truncate">
-            {[app.job_category, app.job_function].filter(Boolean).join(" · ") || "직군 미분류"}
-          </p>
-        </div>
-        <div className="flex flex-col items-end gap-1 shrink-0">
-          <ScoreBadge score={app.match_score} />
-          <span className="text-xs text-neutral-400">{formatDate(app.created_at)}</span>
-        </div>
-        <svg
-          className={`h-4 w-4 text-neutral-400 shrink-0 transition-transform ${expanded ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
+      <div className="flex items-stretch gap-2 px-5 py-4">
+        <button
+          className="flex flex-1 items-center gap-3 text-left transition-colors hover:bg-neutral-50"
+          onClick={() => setExpanded((prev) => !prev)}
+          aria-expanded={expanded}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+          <span className="text-xl shrink-0">{meta?.emoji ?? "📄"}</span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-semibold text-neutral-900 truncate">{app.company}</span>
+              {app.is_stale && (
+                <span className="text-xs px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 shrink-0">
+                  재분석 필요
+                </span>
+              )}
+            </div>
+            <p className="mt-0.5 text-xs text-neutral-500 truncate">
+              {[app.job_category, app.job_function].filter(Boolean).join(" · ") || "직군 미분류"}
+            </p>
+          </div>
+          <div className="flex flex-col items-end gap-1 shrink-0">
+            <ScoreBadge score={app.match_score} />
+            <span className="text-xs text-neutral-400">{formatDate(app.created_at)}</span>
+          </div>
+          <svg
+            className={`h-4 w-4 text-neutral-400 shrink-0 transition-transform ${expanded ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={isDeleting}
+          className="shrink-0 self-center rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {isDeleting ? "삭제 중..." : "삭제"}
+        </button>
+      </div>
 
       {expanded && (
         <div className="border-t border-neutral-100">
-          {/* 탭 */}
-          <div className="flex border-b border-neutral-100 px-5">
-            {(["result", "posting"] as CardTab[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`py-2.5 pr-5 text-xs font-medium transition-colors border-b-2 -mb-px ${
-                  tab === t
-                    ? "border-neutral-900 text-neutral-900"
-                    : "border-transparent text-neutral-400 hover:text-neutral-600"
-                }`}
-              >
-                {t === "result" ? "분석 결과" : "공고 원문"}
-              </button>
-            ))}
+          <div className="border-b border-neutral-100 px-5 py-3">
+            <div className="flex border-b border-transparent">
+              {(["result", "posting"] as CardTab[]).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  className={`py-2.5 pr-5 text-xs font-medium transition-colors border-b-2 -mb-px ${
+                    tab === t
+                      ? "border-neutral-900 text-neutral-900"
+                      : "border-transparent text-neutral-400 hover:text-neutral-600"
+                  }`}
+                >
+                  {t === "result" ? "분석 결과" : "공고 원문"}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* 탭 콘텐츠 */}
@@ -110,22 +137,26 @@ function HistoryCard({ app }: { app: ApplicationRow }) {
 }
 
 export function HistoryClient({ applications }: { applications: ApplicationRow[] }) {
+  const router = useRouter();
+  const [items, setItems] = useState(applications);
   const [selectedLabels, setSelectedLabels] = useState<Set<Label>>(new Set());
   const [selectedLifestyleTypes, setSelectedLifestyleTypes] = useState<Set<LifestyleType>>(new Set());
   const [sort, setSort] = useState<SortKey>("latest");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const allLabels = Object.keys(LABEL_META) as Label[];
 
   const lifestyleTypes = useMemo(() => {
     const seen = new Set<LifestyleType>();
-    applications.forEach((app) => {
+    items.forEach((app) => {
       if (app.analysis_cache.lifestyle_type) seen.add(app.analysis_cache.lifestyle_type);
     });
     return [...seen];
-  }, [applications]);
+  }, [items]);
 
   const filtered = useMemo(() => {
-    let result = [...applications];
+    let result = [...items];
 
     if (selectedLabels.size > 0) {
       result = result.filter((app) => selectedLabels.has(app.label as Label));
@@ -145,12 +176,16 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
     );
 
     return result;
-  }, [applications, selectedLabels, selectedLifestyleTypes, sort]);
+  }, [items, selectedLabels, selectedLifestyleTypes, sort]);
 
   const toggleLabel = (label: Label) => {
     setSelectedLabels((prev) => {
       const next = new Set(prev);
-      next.has(label) ? next.delete(label) : next.add(label);
+      if (next.has(label)) {
+        next.delete(label);
+      } else {
+        next.add(label);
+      }
       return next;
     });
   };
@@ -158,7 +193,11 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
   const toggleLifestyleType = (type: LifestyleType) => {
     setSelectedLifestyleTypes((prev) => {
       const next = new Set(prev);
-      next.has(type) ? next.delete(type) : next.add(type);
+      if (next.has(type)) {
+        next.delete(type);
+      } else {
+        next.add(type);
+      }
       return next;
     });
   };
@@ -170,7 +209,34 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
     setSelectedLifestyleTypes(new Set());
   };
 
-  if (applications.length === 0) {
+  const handleDelete = async (applicationId: string) => {
+    const previousItems = items;
+
+    setDeletingId(applicationId);
+    setDeleteError(null);
+    setItems((prev) => prev.filter((app) => app.id !== applicationId));
+
+    try {
+      const response = await fetch(`/api/history/${applicationId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(payload?.error ?? "분석 기록 삭제에 실패했습니다.");
+      }
+      router.refresh();
+    } catch (error) {
+      setItems(previousItems);
+      setDeleteError(
+        error instanceof Error ? error.message : "분석 기록 삭제에 실패했습니다.",
+      );
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  if (items.length === 0) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
         <span className="text-4xl">📭</span>
@@ -187,6 +253,12 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
 
   return (
     <div className="space-y-5">
+      {deleteError && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {deleteError}
+        </div>
+      )}
+
       {/* 필터 패널 */}
       <div className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-4">
         {/* 레이블 필터 */}
@@ -254,7 +326,7 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
         <p className="text-sm text-neutral-500">
           <span className="font-semibold text-neutral-900">{filtered.length}</span>개
           {hasActiveFilter && (
-            <span className="ml-1 text-neutral-400">/ 전체 {applications.length}개</span>
+            <span className="ml-1 text-neutral-400">/ 전체 {items.length}개</span>
           )}
         </p>
         {hasActiveFilter && (
@@ -281,7 +353,12 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
       ) : (
         <div className="space-y-3">
           {filtered.map((app) => (
-            <HistoryCard key={app.id} app={app} />
+            <HistoryCard
+              key={app.id}
+              app={app}
+              isDeleting={deletingId === app.id}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       )}
