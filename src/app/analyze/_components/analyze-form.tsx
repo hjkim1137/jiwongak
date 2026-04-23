@@ -1,33 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useState, useRef, useEffect } from "react";
 import type { AnalysisResult } from "@/types/analysis";
 import { AnalysisResultPreview } from "./analysis-result-preview";
+import { AnalysisProgress, type AnalysisStep } from "./analysis-progress";
 
 const MIN_LENGTH = 50;
 const URL_PATTERN = /^https?:\/\/\S+$/;
 
-async function fetchAnalysis(rawText: string): Promise<AnalysisResult> {
-  const res = await fetch("/api/analyze", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ rawText }),
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error ?? "분석 중 오류가 발생했습니다");
-  }
-  return res.json();
-}
+type SSEEvent =
+  | { type: "progress"; step: AnalysisStep }
+  | { type: "result"; data: AnalysisResult }
+  | { type: "error"; error: string };
+
+type State =
+  | { phase: "idle" }
+  | { phase: "loading"; step: AnalysisStep }
+  | { phase: "success"; result: AnalysisResult }
+  | { phase: "error"; message: string };
 
 export function AnalyzeForm() {
   const [text, setText] = useState("");
   const [urlError, setUrlError] = useState(false);
+  const [state, setState] = useState<State>({ phase: "idle" });
+  const abortRef = useRef<AbortController | null>(null);
 
-  const mutation = useMutation({ mutationFn: fetchAnalysis });
+  useEffect(() => () => { abortRef.current?.abort(); }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = text.trim();
     if (trimmed.length < MIN_LENGTH) return;
@@ -36,15 +36,65 @@ export function AnalyzeForm() {
       return;
     }
     setUrlError(false);
-    mutation.mutate(trimmed);
+
+    abortRef.current?.abort();
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+
+    setState({ phase: "loading", step: "parsing" });
+
+    try {
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rawText: trimmed }),
+        signal: ctrl.signal,
+      });
+
+      // 사전 검증 실패 (400, 429) — 일반 JSON 응답
+      if (!res.ok) {
+        const err = await res.json();
+        setState({
+          phase: "error",
+          message: err.error ?? "분석 중 오류가 발생했습니다",
+        });
+        return;
+      }
+
+      // SSE 스트림 읽기
+      const reader = res.body!.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const messages = buffer.split("\n\n");
+        buffer = messages.pop() ?? "";
+
+        for (const msg of messages) {
+          if (!msg.startsWith("data: ")) continue;
+          const event = JSON.parse(msg.slice(6)) as SSEEvent;
+
+          if (event.type === "progress") {
+            setState({ phase: "loading", step: event.step });
+          } else if (event.type === "result") {
+            setState({ phase: "success", result: event.data });
+          } else if (event.type === "error") {
+            setState({ phase: "error", message: event.error });
+          }
+        }
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
+      setState({ phase: "error", message: "분석 중 오류가 발생했습니다" });
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-    if (urlError) setUrlError(false);
-  };
-
-  const isDisabled = text.trim().length < MIN_LENGTH || mutation.isPending;
+  const isLoading = state.phase === "loading";
+  const isDisabled = text.trim().length < MIN_LENGTH || isLoading;
 
   return (
     <div className="w-full space-y-6">
@@ -59,10 +109,13 @@ export function AnalyzeForm() {
           <textarea
             id="posting"
             value={text}
-            onChange={handleChange}
+            onChange={(e) => {
+              setText(e.target.value);
+              if (urlError) setUrlError(false);
+            }}
             placeholder="채용공고 전문을 붙여넣어 주세요&#10;&#10;회사명, 직무 설명, 자격 요건, 우대 사항 등을 포함하면 더 정확한 분석이 가능합니다"
             rows={14}
-            disabled={mutation.isPending}
+            disabled={isLoading}
             className="w-full resize-y rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-900 placeholder-neutral-400 transition-colors focus:border-neutral-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-neutral-50"
           />
           <div className="mt-1 flex justify-between text-xs text-neutral-400">
@@ -80,17 +133,12 @@ export function AnalyzeForm() {
           disabled={isDisabled}
           className="w-full cursor-pointer rounded-lg bg-neutral-900 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {mutation.isPending ? "분석 중..." : "분석하기"}
+          {isLoading ? "분석 중..." : "분석하기"}
         </button>
       </form>
 
-      {/* 분석 중 상태 */}
-      {mutation.isPending && (
-        <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-8 text-center">
-          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-700" />
-          <p className="text-sm font-medium text-neutral-700">공고 분석 중</p>
-        </div>
-      )}
+      {/* 단계 진행 표시 */}
+      {isLoading && <AnalysisProgress step={state.step} />}
 
       {/* URL 입력 에러 */}
       {urlError && (
@@ -100,15 +148,15 @@ export function AnalyzeForm() {
       )}
 
       {/* 에러 */}
-      {mutation.isError && (
+      {state.phase === "error" && (
         <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
-          {mutation.error.message}
+          {state.message}
         </div>
       )}
 
       {/* 분석 결과 */}
-      {mutation.isSuccess && mutation.data && (
-        <AnalysisResultPreview result={mutation.data} />
+      {state.phase === "success" && (
+        <AnalysisResultPreview result={state.result} />
       )}
     </div>
   );
