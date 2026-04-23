@@ -67,13 +67,13 @@ async function AppHeader() {
                 href="/history"
                 className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
               >
-                내 히스토리
+                히스토리
               </Link>
               <Link
                 href="/account"
                 className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
               >
-                계정
+                마이페이지
               </Link>
               <Link
                 href="/analyze"

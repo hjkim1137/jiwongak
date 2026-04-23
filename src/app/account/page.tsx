@@ -36,11 +36,43 @@ export default async function AccountPage() {
         </Link>
 
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">계정</h1>
+          <h1 className="text-2xl font-bold text-neutral-900">마이페이지</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            로그인 정보를 확인하고 계정을 관리합니다
+            내 활동을 확인하고 계정을 관리해요
           </p>
         </div>
+
+        <Link
+          href="/history"
+          className="group flex items-center justify-between rounded-2xl border border-neutral-200 bg-white p-5 transition-colors hover:bg-neutral-50"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-2xl" aria-hidden>
+              📋
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-neutral-900">
+                내 분석 기록 보기
+              </p>
+              <p className="mt-0.5 text-xs text-neutral-500">
+                지금까지 분석한 공고 목록을 확인해요
+              </p>
+            </div>
+          </div>
+          <svg
+            className="h-4 w-4 text-neutral-400 transition-transform group-hover:translate-x-0.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
 
         <section className="rounded-2xl border border-neutral-200 bg-white p-5 space-y-4">
           <div>
