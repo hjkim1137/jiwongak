@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnalysisResultPreview, LABEL_META } from "@/app/analyze/_components/analysis-result-preview";
 import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
+import { displayCompany } from "@/lib/format";
 import type { ApplicationRow } from "../page";
 import type { Label, LifestyleType } from "@/types/analysis";
 
@@ -45,9 +46,11 @@ function HistoryCard({ app, isDeleting, onDelete }: HistoryCardProps) {
   const [tab, setTab] = useState<CardTab>("result");
   const meta = LABEL_META[app.label as keyof typeof LABEL_META];
 
+  const companyLabel = displayCompany(app.company);
+
   const handleDelete = async () => {
     const shouldDelete = window.confirm(
-      `${app.company} 분석 기록을 삭제할까요? 이 작업은 되돌릴 수 없습니다.`,
+      `${companyLabel} 분석 기록을 삭제할까요? 이 작업은 되돌릴 수 없습니다.`,
     );
     if (!shouldDelete) return;
 
@@ -65,7 +68,7 @@ function HistoryCard({ app, isDeleting, onDelete }: HistoryCardProps) {
           <span className="text-xl shrink-0">{meta?.emoji ?? "📄"}</span>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-semibold text-neutral-900 truncate">{app.company}</span>
+              <span className="font-semibold text-neutral-900 truncate">{companyLabel}</span>
               {app.is_stale && (
                 <span className="text-xs px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 shrink-0">
                   재분석 필요
@@ -282,8 +285,8 @@ export function HistoryClient({ applications }: { applications: ApplicationRow[]
           })}
         </div>
 
-        {/* 진단 프로필 필터 (히스토리에 2종 이상 존재할 때만) */}
-        {lifestyleTypes.length > 1 && (
+        {/* 진단 프로필 필터 */}
+        {lifestyleTypes.length > 0 && (
           <div>
             <p className="mb-2 text-xs font-medium text-neutral-400">진단 프로필</p>
             <div className="flex flex-wrap gap-2">
