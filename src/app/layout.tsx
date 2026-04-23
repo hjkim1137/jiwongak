@@ -70,6 +70,12 @@ async function AppHeader() {
                 내 히스토리
               </Link>
               <Link
+                href="/account"
+                className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
+              >
+                계정
+              </Link>
+              <Link
                 href="/analyze"
                 className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
               >
