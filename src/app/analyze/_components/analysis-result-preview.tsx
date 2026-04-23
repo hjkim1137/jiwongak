@@ -157,7 +157,7 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
       {/* 참고사항 */}
       {flagItems.length > 0 && (
         <div className="rounded-xl border border-amber-100 bg-amber-50 p-5">
-          <h3 className="mb-3 text-sm font-medium text-amber-700">참고사항</h3>
+          <h3 className="mb-3 text-sm font-medium text-amber-700">공고 인사이트</h3>
           <ul className="space-y-1.5">
             {flagItems.map((w, i) => (
               <li key={i} className="flex gap-2 text-sm leading-relaxed text-amber-700">
@@ -170,10 +170,11 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
       )}
 
       {/* 판단 근거 인사이트 */}
-      {result.cited_insights.length > 0 && (
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium text-neutral-700">공고 인사이트</h3>
-          {result.cited_insights.map((insight) => {
+      {result.cited_insights.length > 0 && (() => {
+        const positiveInsights = result.cited_insights.filter((i) => i.severity === "info");
+        const cautionInsights = result.cited_insights.filter((i) => i.severity !== "info");
+        const renderInsights = (items: typeof result.cited_insights) =>
+          items.map((insight) => {
             const s = SEVERITY_STYLE[insight.severity];
             return (
               <div key={insight.id} className={`rounded-xl border p-4 ${s.bg} ${s.border}`}>
@@ -188,9 +189,24 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
                 </div>
               </div>
             );
-          })}
-        </div>
-      )}
+          });
+        return (
+          <div className="space-y-4">
+            {positiveInsights.length > 0 && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-neutral-700">긍정 요소</h3>
+                {renderInsights(positiveInsights)}
+              </div>
+            )}
+            {cautionInsights.length > 0 && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-neutral-700">유의 사항</h3>
+                {renderInsights(cautionInsights)}
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
