@@ -14,7 +14,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex flex-1 items-center justify-center px-4 py-10">
       <div className="flex w-full max-w-sm flex-col items-center gap-6 rounded-2xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-sm">
         <h1 className="text-2xl font-bold tracking-tight">지원각</h1>
         <p className="text-center text-sm text-neutral-500">
