@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
+import { getServerClient } from "@/lib/supabase-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +21,16 @@ export const metadata: Metadata = {
     "채용공고를 붙여넣으면 당신의 경력·역량·라이프스타일과 매칭해 지원 적합도와 산업/직무 주의사항을 알려주는 AI 서비스",
 };
 
-function AppHeader() {
+async function AppHeader() {
+  let user = null;
+  try {
+    const supabase = await getServerClient();
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // 비로그인 상태로 처리
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
@@ -30,19 +40,38 @@ function AppHeader() {
         >
           지원각
         </Link>
-        <nav className="flex items-center gap-6">
-          <Link
-            href="/demo"
-            className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
-          >
-            분석 미리보기
-          </Link>
-          <Link
-            href="/history"
-            className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
-          >
-            내 히스토리
-          </Link>
+        <nav className="flex items-center gap-3">
+          {user ? (
+            <>
+              <Link
+                href="/history"
+                className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
+              >
+                내 히스토리
+              </Link>
+              <Link
+                href="/analyze"
+                className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
+              >
+                공고 분석하기
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
+              >
+                로그인
+              </Link>
+              <Link
+                href="/diagnosis"
+                className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
+              >
+                무료로 시작하기
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>
@@ -54,7 +83,7 @@ function AppFooter() {
     <footer className="border-t border-neutral-100">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5 text-xs text-neutral-400">
         <span className="font-medium">지원각</span>
-        <span>AI 채용공고 적합도 분석 서비스</span>
+        <span>© 2026 Jiwongak · AI 채용공고 적합도 분석 서비스</span>
       </div>
     </footer>
   );
