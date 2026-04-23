@@ -13,6 +13,7 @@ export type ApplicationRow = {
   match_score: number;
   label: string;
   analysis_cache: AnalysisResult;
+  raw_text: string;
   created_at: string;
   is_stale: boolean;
 };
@@ -46,7 +47,7 @@ export default async function HistoryPage() {
   const { data: applications } = await supabase
     .from("applications")
     .select(
-      "id, company, job_category, job_function, match_score, label, analysis_cache, created_at, is_stale",
+      "id, company, job_category, job_function, match_score, label, analysis_cache, raw_text, created_at, is_stale",
     )
     .order("created_at", { ascending: false });
 
