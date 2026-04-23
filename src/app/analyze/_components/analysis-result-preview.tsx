@@ -10,7 +10,7 @@ export const LABEL_META: Record<
 > = {
   지원각: { emoji: "✅", color: "text-green-700",   bg: "bg-green-50",   border: "border-green-200"   },
   고민각: { emoji: "🤔", color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200"   },
-  애매각: { emoji: "😐", color: "text-neutral-600", bg: "bg-neutral-50", border: "border-neutral-200" },
+  애매각: { emoji: "😐", color: "text-neutral-700", bg: "bg-neutral-100", border: "border-neutral-400" },
   패스각: { emoji: "⚠️", color: "text-orange-700",  bg: "bg-orange-50",  border: "border-orange-200"  },
   함정각: { emoji: "⚫", color: "text-white",        bg: "bg-neutral-900", border: "border-neutral-900" },
 };
@@ -172,7 +172,7 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
       {/* 판단 근거 인사이트 */}
       {result.cited_insights.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-sm font-medium text-neutral-700">이 분석의 근거</h3>
+          <h3 className="text-sm font-medium text-neutral-700">공고 인사이트</h3>
           {result.cited_insights.map((insight) => {
             const s = SEVERITY_STYLE[insight.severity];
             return (
