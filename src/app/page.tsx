@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FadeIn } from "./_components/fade-in";
 import { HomeDemoSection } from "./_components/home-demo-section";
 
 function MockResultCard() {
@@ -87,22 +88,26 @@ function StepsSection() {
   return (
     <section className="bg-neutral-50 px-6 py-24">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-medium text-neutral-400">어떻게 쓰나요</p>
-          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-            3단계로 끝나요
-          </h2>
-        </div>
+        <FadeIn>
+          <div className="mb-14 text-center">
+            <p className="mb-3 text-sm font-medium text-neutral-400">어떻게 쓰나요</p>
+            <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+              3단계로 끝나요
+            </h2>
+          </div>
+        </FadeIn>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {STEPS.map((step) => (
-            <div key={step.num} className="rounded-2xl border border-neutral-200 bg-white p-8">
-              <div className="mb-5 flex items-center justify-between">
-                <span className="text-3xl">{step.icon}</span>
-                <span className="font-mono text-xs font-semibold text-neutral-300">{step.num}</span>
+          {STEPS.map((step, i) => (
+            <FadeIn key={step.num} delay={i * 120}>
+              <div className="rounded-2xl border border-neutral-200 bg-white p-8">
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="text-3xl">{step.icon}</span>
+                  <span className="font-mono text-xs font-semibold text-neutral-300">{step.num}</span>
+                </div>
+                <h3 className="mb-2 font-bold text-neutral-900">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-neutral-500">{step.desc}</p>
               </div>
-              <h3 className="mb-2 font-bold text-neutral-900">{step.title}</h3>
-              <p className="text-sm leading-relaxed text-neutral-500">{step.desc}</p>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </div>
@@ -114,26 +119,28 @@ function FinalCtaSection() {
   return (
     <section className="bg-neutral-50 px-6 py-24">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-          지금 바로 확인해보세요
-        </h2>
-        <p className="mt-4 text-base text-neutral-500">
-          진단부터 공고 분석까지, 5분이면 충분해요
-        </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Link
-            href="/diagnosis"
-            className="rounded-lg bg-neutral-900 px-8 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
-          >
-            진단 시작하기
-          </Link>
-          <Link
-            href="/analyze"
-            className="rounded-lg border border-neutral-300 px-8 py-3.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
-          >
-            공고 바로 분석하기
-          </Link>
-        </div>
+        <FadeIn>
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+            지금 바로 확인해보세요
+          </h2>
+          <p className="mt-4 text-base text-neutral-500">
+            진단부터 공고 분석까지, 5분이면 충분해요
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href="/diagnosis"
+              className="rounded-lg bg-neutral-900 px-8 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
+            >
+              진단 시작하기
+            </Link>
+            <Link
+              href="/analyze"
+              className="rounded-lg border border-neutral-300 px-8 py-3.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
+            >
+              공고 바로 분석하기
+            </Link>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -146,35 +153,41 @@ export default function Home() {
       <section className="flex min-h-[88vh] items-center px-6 py-20">
         <div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="space-y-7 text-center lg:text-left">
-            <div className="space-y-4">
-              <p className="text-sm font-medium text-neutral-400">AI 채용공고 적합도 분석</p>
-              <h1 className="text-4xl font-bold leading-tight tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
-                이 공고,<br />지원각이야?
-              </h1>
-            </div>
-            <p className="text-base leading-relaxed text-neutral-500 sm:text-lg">
-              채용공고를 붙여넣으면 내 경력·역량·라이프스타일과 매칭해
-              지원 적합도를 한 마디로 알려주는 AI 서비스
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link
-                href="/diagnosis"
-                className="rounded-lg bg-neutral-900 px-8 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
-              >
-                진단 시작하기
-              </Link>
-              <Link
-                href="/analyze"
-                className="rounded-lg border border-neutral-300 px-8 py-3.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
-              >
-                공고 바로 분석하기
-              </Link>
-            </div>
+            <FadeIn immediate delay={100}>
+              <div className="space-y-4">
+                <p className="text-sm font-medium text-neutral-400">AI 채용공고 적합도 분석</p>
+                <h1 className="text-4xl font-bold leading-tight tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
+                  이 공고,<br />지원각이야?
+                </h1>
+              </div>
+            </FadeIn>
+            <FadeIn immediate delay={250}>
+              <p className="text-base leading-relaxed text-neutral-500 sm:text-lg">
+                채용공고를 붙여넣으면 내 경력·역량·라이프스타일과 매칭해
+                지원 적합도를 한 마디로 알려주는 AI 서비스
+              </p>
+            </FadeIn>
+            <FadeIn immediate delay={400}>
+              <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                <Link
+                  href="/diagnosis"
+                  className="rounded-lg bg-neutral-900 px-8 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
+                >
+                  진단 시작하기
+                </Link>
+                <Link
+                  href="/analyze"
+                  className="rounded-lg border border-neutral-300 px-8 py-3.5 text-center text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
+                >
+                  공고 바로 분석하기
+                </Link>
+              </div>
+            </FadeIn>
           </div>
 
-          <div className="px-4 lg:px-0">
+          <FadeIn immediate delay={550} className="px-4 lg:px-0">
             <MockResultCard />
-          </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -182,7 +195,9 @@ export default function Home() {
       <StepsSection />
 
       {/* 분석 결과 미리보기 */}
-      <HomeDemoSection />
+      <FadeIn>
+        <HomeDemoSection />
+      </FadeIn>
 
       {/* 최종 CTA */}
       <FinalCtaSection />
