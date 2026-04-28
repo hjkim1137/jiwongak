@@ -35,10 +35,6 @@ yarn-error.log*
 !.env.local.example
 !.env.example
 
-# 로컬 전용 기획/전략 문서 (mvp-plan, matching-logic, decision logs 등)
-# 공개 저장소에 푸시하지 않음. .env.local 컨벤션과 의미적 일관성.
-/.local/
-
 # eval set (개인 프로필 기반 gold label — 비공개)
 /eval/
 
