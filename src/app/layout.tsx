@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
@@ -56,9 +57,17 @@ async function AppHeader() {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="text-base font-bold text-neutral-900 transition-colors hover:text-neutral-600"
+          className="flex items-center transition-opacity hover:opacity-80"
+          aria-label="지원각 홈"
         >
-          지원각
+          <Image
+            src="/jiwongak-logo.png"
+            alt="지원각"
+            width={1922}
+            height={818}
+            priority
+            className="h-16 w-auto"
+          />
         </Link>
         <nav className="flex items-center gap-3">
           {user ? (

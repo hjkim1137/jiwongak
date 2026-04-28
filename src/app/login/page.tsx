@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { getBrowserClient } from "@/lib/supabase";
 
 export default function LoginPage() {
@@ -16,7 +17,15 @@ export default function LoginPage() {
   return (
     <main className="flex flex-1 items-center justify-center px-4 py-10">
       <div className="flex w-full max-w-sm flex-col items-center gap-6 rounded-2xl border border-neutral-200 bg-white p-6 sm:p-8 shadow-sm">
-        <h1 className="text-2xl font-bold tracking-tight">지원각</h1>
+        <h1 className="sr-only">지원각</h1>
+        <Image
+          src="/jiwongak-logo.png"
+          alt="지원각"
+          width={1922}
+          height={818}
+          priority
+          className="h-28 w-auto"
+        />
         <p className="text-center text-sm text-neutral-500">
           채용공고 적합도를 분석해 드립니다
         </p>
