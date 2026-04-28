@@ -1019,6 +1019,74 @@
       "content": "스타트업에서 PM·기획 경력을 쌓은 경우, 대기업 기획직 이직 시 '체계적 보고 프로세스·협업 구조 경험 부족'으로 평가받는 경우가 있다. 반대로 대기업 기획 경력자가 스타트업 PM으로 이직할 때는 '실행력·데이터 기반 의사결정 경험 부족'이 지적된다. 양방향 모두 전환 비용이 존재하며, 직전 직장보다 회사 규모나 문화가 크게 달라지는 이직은 적응 기간을 충분히 감안해야 한다.",
       "evidence_urls": [],
       "source_type": "curated_analysis"
+    },
+    {
+      "slug": "security-saas-domain-lockin",
+      "industry": "SaaS",
+      "sub_industry": "보안",
+      "job_category": "IT개발·데이터",
+      "job_level": "core",
+      "insight_type": "lockin_risk",
+      "severity": "warn",
+      "title": "보안 도메인은 일반 B2B SaaS와 다르게 평가",
+      "content": "정보보안·엔드포인트·EDR 등 보안 도메인 SaaS는 일반 B2B SaaS와 다르게 인식되는 경향. 컴플라이언스·인증·기관 영업 비중이 커서 제품 사이클이 보수적이며, 이직 시 '보안 도메인 경력자'로 분류되어 일반 SaaS 포지션보다 트랙이 좁아질 수 있음. 단 보안 산업 내에서는 희소가치가 있어 동일 도메인 내 이직은 활발한 편.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "security-saas-frontend-console-bias",
+      "industry": "SaaS",
+      "sub_industry": "보안",
+      "job_category": "IT개발·데이터",
+      "job_function": "프론트엔드",
+      "job_level": "core",
+      "insight_type": "culture_pattern",
+      "severity": "warn",
+      "title": "보안 SaaS 프론트는 관리 콘솔 비중이 큼",
+      "content": "보안 제품 프론트는 일반 SaaS와 달리 어드민 대시보드·로그 뷰어·정책 설정 콘솔 비중이 큼. 사용자 인터랙션 다양성이 낮아 모던 프론트엔드 트렌드(스트리밍 UX, 인터랙티브 차트, 복합 폼 등) 경험을 쌓을 기회가 제한될 수 있음. 단 보안 도메인 특성상 권한·세션·암호화 UI 처리에 대한 깊은 경험은 차별화 포인트가 될 수 있음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "saas-enterprise-release-pace",
+      "industry": "SaaS",
+      "insight_type": "culture_pattern",
+      "severity": "info",
+      "title": "엔터프라이즈 SaaS는 릴리즈 페이스가 안정적",
+      "content": "B2B 엔터프라이즈 고객 중심 SaaS는 분기 단위 릴리즈와 사전 협의된 변경 절차로 운영되는 경향. 스타트업식 빠른 실험·일일 배포 환경보다 안정적이지만, 빠른 성장 환경을 선호하는 엔지니어에게는 페이스가 느리게 느껴질 수 있음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "domestic-it-midcap-growth-plateau",
+      "job_category": "IT개발·데이터",
+      "insight_type": "growth_outlook",
+      "severity": "warn",
+      "title": "중견 IT 기업의 조직 단위 성장 둔화 가능성",
+      "content": "상장된 국내 중견 IT 기업은 매출이 안정적이지만 신사업 매출 비중이 낮은 경우가 많아 조직 단위 성장 폭이 제한될 수 있음. 안정성·워라밸 측면은 양호하나, 빠른 커리어 성장을 추구할 경우 사내 신규 사업 부서·신기술 팀 배치 가능 여부를 사전에 확인하는 것이 권장됨.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "b2b-frontend-design-system-leverage",
+      "job_category": "IT개발·데이터",
+      "job_function": "프론트엔드",
+      "insight_type": "scarcity_value",
+      "severity": "info",
+      "title": "B2B 제품 프론트는 디자인 시스템 경험이 자산",
+      "content": "B2B 제품의 프론트엔드는 어드민·대시보드·설정 화면이 다수라 디자인 시스템·테이블 컴포넌트·차트 라이브러리 통합 경험을 자연스럽게 축적하게 됨. 일관된 컴포넌트 설계 경험은 이직 시장에서 시니어 트랙으로 평가되는 경향이 있어, 화려한 인터랙션 부족을 약점이 아닌 강점으로 정리할 수 있음.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
+    },
+    {
+      "slug": "domestic-it-midcap-stability-tradeoff",
+      "job_category": "IT개발·데이터",
+      "insight_type": "compensation_pattern",
+      "severity": "info",
+      "title": "국내 중견 IT 기업의 안정성·보상 트레이드오프",
+      "content": "국내 상장 중견 IT 기업은 평균 근속이 길고 복리후생(주식·교육비·휴가)이 정착돼 있는 경향. 다만 연봉 인상 폭과 RSU·옵션 등 성과 보상은 글로벌 빅테크나 시리즈 B+ 스타트업 대비 보수적인 편이라, 보상 극대화보다는 장기 안정 추구 시 적합한 환경.",
+      "evidence_urls": [],
+      "source_type": "curated_analysis"
     }
   ]
 }
