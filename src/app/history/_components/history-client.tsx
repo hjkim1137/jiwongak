@@ -12,11 +12,11 @@ import type { Label, LifestyleType } from "@/types/analysis";
 type SortKey = "latest" | "score";
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const d = new Date(iso);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}.${mm}.${dd}`;
 }
 
 function ScoreBadge({ score }: { score: number }) {
@@ -61,7 +61,7 @@ function HistoryCard({ app, isDeleting, onDelete }: HistoryCardProps) {
     <div className="rounded-2xl border border-neutral-200 bg-white overflow-hidden">
       <div className="flex items-stretch gap-2 px-5 py-4">
         <button
-          className="flex flex-1 items-center gap-3 text-left transition-colors hover:bg-neutral-50"
+          className="flex flex-1 min-w-0 items-center gap-3 text-left transition-colors hover:bg-neutral-50"
           onClick={() => setExpanded((prev) => !prev)}
           aria-expanded={expanded}
         >
@@ -97,9 +97,22 @@ function HistoryCard({ app, isDeleting, onDelete }: HistoryCardProps) {
           type="button"
           onClick={handleDelete}
           disabled={isDeleting}
-          className="shrink-0 self-center rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+          aria-label={isDeleting ? "삭제 중" : "삭제"}
+          className="shrink-0 self-center rounded-lg border border-red-200 p-2 text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isDeleting ? "삭제 중..." : "삭제"}
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
         </button>
       </div>
 
