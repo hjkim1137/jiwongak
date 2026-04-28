@@ -29,10 +29,10 @@ export function HomeDemoSection() {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full border px-5 py-2 text-sm font-medium transition-all ${meta.bg} ${meta.color} ${meta.border} ${
                   isActive
-                    ? `${meta.bg} ${meta.color} ${meta.border} border`
-                    : "border border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-50"
+                    ? `shadow-md ring-2 ring-offset-2 ${meta.ring}`
+                    : "opacity-70 hover:opacity-100"
                 }`}
               >
                 {meta.emoji} {p.result.label}

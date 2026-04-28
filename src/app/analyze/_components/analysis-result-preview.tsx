@@ -6,13 +6,13 @@ import { getBrowserClient } from "@/lib/supabase";
 
 export const LABEL_META: Record<
   Label,
-  { emoji: string; color: string; bg: string; border: string }
+  { emoji: string; color: string; bg: string; border: string; ring: string }
 > = {
-  지원각: { emoji: "✅", color: "text-green-700",   bg: "bg-green-50",   border: "border-green-200"   },
-  고민각: { emoji: "🤔", color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200"   },
-  애매각: { emoji: "😐", color: "text-neutral-700", bg: "bg-neutral-100", border: "border-neutral-400" },
-  패스각: { emoji: "⚠️", color: "text-orange-700",  bg: "bg-orange-50",  border: "border-orange-200"  },
-  함정각: { emoji: "⚫", color: "text-white",        bg: "bg-neutral-900", border: "border-neutral-900" },
+  지원각: { emoji: "✅", color: "text-green-700",   bg: "bg-green-50",   border: "border-green-200",   ring: "ring-green-600"   },
+  고민각: { emoji: "🤔", color: "text-amber-700",   bg: "bg-amber-50",   border: "border-amber-200",   ring: "ring-amber-600"   },
+  애매각: { emoji: "😐", color: "text-neutral-700", bg: "bg-neutral-100", border: "border-neutral-400", ring: "ring-neutral-600" },
+  패스각: { emoji: "⚠️", color: "text-orange-700",  bg: "bg-orange-50",  border: "border-orange-200",  ring: "ring-orange-600"  },
+  함정각: { emoji: "🚨", color: "text-red-700",      bg: "bg-red-50",     border: "border-red-200",     ring: "ring-red-600"     },
 };
 
 export const DIMENSION_LABEL: Record<string, string> = {
@@ -170,7 +170,7 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
       )}
 
       {/* 판단 근거 인사이트 */}
-      {result.cited_insights.length > 0 && (() => {
+      {result.cited_insights.length > 0 ? (() => {
         const positiveInsights = result.cited_insights.filter((i) => i.severity === "info");
         const cautionInsights = result.cited_insights.filter((i) => i.severity !== "info");
         const renderInsights = (items: typeof result.cited_insights) =>
@@ -206,7 +206,16 @@ export function AnalysisResultPreview({ result }: { result: AnalysisResult }) {
             )}
           </div>
         );
-      })()}
+      })() : (
+        <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+          <p className="text-sm font-medium text-neutral-700">
+            이 산업·직군 조합에 매칭되는 인사이트 시드가 부족해요
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-neutral-500">
+            점수만 참고용으로 봐주세요. 분석 정확도를 위해 인사이트 데이터셋을 계속 보강 중입니다.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
