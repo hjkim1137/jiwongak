@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 로그인 필요 경로 (히스토리, 마이페이지 등 저장 기능)
+  // 로그인 필요 경로 (분석 기록, 마이페이지 등 저장 기능)
   const protectedPaths = ["/history", "/settings", "/account"];
   const isProtected = protectedPaths.some((p) =>
     request.nextUrl.pathname.startsWith(p),

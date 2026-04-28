@@ -76,7 +76,7 @@ async function AppHeader() {
                 href="/history"
                 className="text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
               >
-                히스토리
+                분석 기록
               </Link>
               <Link
                 href="/account"

@@ -75,7 +75,7 @@ export default async function HistoryPage() {
             홈
           </Link>
           <h1 className="mt-4 text-2xl font-bold text-neutral-900">
-            분석 히스토리
+            분석 기록
           </h1>
           <p className="mt-1 text-sm text-neutral-500">
             내가 분석한 채용공고 목록
