@@ -51,7 +51,7 @@ describe("classifyType", () => {
   });
 
   describe("가중치 프리셋 반환", () => {
-    it("반환된 weightsPreset의 dimension 합이 1.0", () => {
+    it("반환된 weightsPreset의 dimension 합이 1.0 (4차원)", () => {
       const result = classifyType(allB); // stable_wlb
       const sum = Object.values(result.weightsPreset).reduce((a, b) => a + b, 0);
       expect(sum).toBeCloseTo(1.0);
@@ -61,6 +61,15 @@ describe("classifyType", () => {
       const result = classifyType(allB);
       expect(result.weightsPreset.wlb).toBeGreaterThan(result.weightsPreset.skill_match);
       expect(result.weightsPreset.wlb).toBeGreaterThan(result.weightsPreset.career_ceiling);
+    });
+
+    it("모든 타입의 personality_fit 가중치가 0보다 큼", () => {
+      // 6타입 전부에 personality_fit 비중이 부여되어야 한다 (4차원 재정규화 후)
+      const types = [allA, allB, {} as DiagnosisAnswers];
+      for (const answers of types) {
+        const result = classifyType(answers);
+        expect(result.weightsPreset.personality_fit).toBeGreaterThan(0);
+      }
     });
   });
 

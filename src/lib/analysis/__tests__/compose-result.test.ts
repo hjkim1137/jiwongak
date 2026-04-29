@@ -127,21 +127,21 @@ describe("composeResult", () => {
 
   describe("confidence 가중 평균", () => {
     it("confidence=0 인 dimension은 가중평균에 기여 0", () => {
-      // njob_lifer: skill=0.4, wlb=0.4, ceiling=0.2
+      // njob_lifer (4차원): skill=0.35, wlb=0.30, ceiling=0.15, personality=0.20
       // career_ceiling confidence=0 → 실질 가중치 0
-      // 유효: skill=0.4×1, wlb=0.4×1 → 정규화: skill 50%, wlb 50%
+      // 유효: skill=0.35×1, wlb=0.30×1 → (100×0.35 + 0×0.30) / (0.35+0.30) = 35/0.65 ≈ 54
       const scores = [
         makeScore("skill_match", 100, 1),
         makeScore("wlb", 0, 1),
         makeScore("career_ceiling", 0, 0),
       ];
       const result = composeResult(scores, baseProfile, []);
-      // career_ceiling 제외 → (100×0.4 + 0×0.4) / (0.4+0.4) = 40/0.8 = 50
-      expect(result.composite_score).toBe(50);
+      expect(result.composite_score).toBe(54);
     });
 
     it("라이프스타일별 가중치 프리셋 적용 확인 — growth_challenger", () => {
-      // growth_challenger: skill=0.4, wlb=0.2, ceiling=0.4
+      // growth_challenger (4차원): skill=0.30, wlb=0.15, ceiling=0.30, personality=0.25
+      // 3차원만 입력 → (100×0.30 + 0×0.15 + 0×0.30) / (0.30+0.15+0.30) = 30/0.75 = 40
       const profile: UserProfile = { ...baseProfile, lifestyle_type: "growth_challenger" };
       const scores = [
         makeScore("skill_match", 100),
@@ -149,8 +149,37 @@ describe("composeResult", () => {
         makeScore("career_ceiling", 0),
       ];
       const result = composeResult(scores, profile, []);
-      // (100×0.4 + 0×0.2 + 0×0.4) / (0.4+0.2+0.4) = 40/1.0 = 40
       expect(result.composite_score).toBe(40);
+    });
+
+    it("personality_fit confidence=0 이면 4차원 합산이 3차원과 동일한 정규화", () => {
+      // njob_lifer 3차원만 입력 vs 4차원이지만 personality conf=0 → 같은 결과
+      const baseScores = [
+        makeScore("skill_match", 80),
+        makeScore("wlb", 60),
+        makeScore("career_ceiling", 40),
+      ];
+      const r3 = composeResult(baseScores, baseProfile, []);
+      const r4 = composeResult(
+        [...baseScores, makeScore("personality_fit", 100, 0)],
+        baseProfile,
+        [],
+      );
+      expect(r4.composite_score).toBe(r3.composite_score);
+    });
+
+    it("personality_fit confidence>0 이면 가중평균에 반영", () => {
+      // njob_lifer: skill=0.35, wlb=0.30, ceiling=0.15, personality=0.20 (합 1.0)
+      // 모두 confidence=1 → 단순 가중합 = composite
+      const scores = [
+        makeScore("skill_match", 80),
+        makeScore("wlb", 60),
+        makeScore("career_ceiling", 40),
+        makeScore("personality_fit", 100),
+      ];
+      const result = composeResult(scores, baseProfile, []);
+      // 80×0.35 + 60×0.30 + 40×0.15 + 100×0.20 = 28+18+6+20 = 72
+      expect(result.composite_score).toBe(72);
     });
   });
 

@@ -19,19 +19,18 @@ import type {
 } from "@/types/analysis";
 
 /**
- * 라이프스타일 타입별 차원 가중치 프리셋.
- * 합은 1.0이어야 한다 (테스트로 검증).
+ * 라이프스타일 타입별 차원 가중치 프리셋. 합은 1.0이어야 한다 (테스트로 검증).
  *
- * personality_fit는 도입 시점(타입 정의 단계)에서는 0으로 두고,
- * 4차원 재정규화 단계에서 정상 비율로 갱신된다.
+ * personality_fit는 환경 격변 노출이 큰 타입(growth_challenger, founder_to_be)에
+ * 비중을 더 두고, 안정형은 wlb 비중을 보존한다.
  */
 export const TYPE_WEIGHTS: Record<LifestyleType, Record<Dimension, number>> = {
-  njob_lifer:        { skill_match: 0.4, wlb: 0.4, career_ceiling: 0.2, personality_fit: 0 },
-  growth_challenger: { skill_match: 0.4, wlb: 0.2, career_ceiling: 0.4, personality_fit: 0 },
-  jumper:            { skill_match: 0.5, wlb: 0.1, career_ceiling: 0.4, personality_fit: 0 },
-  stable_wlb:        { skill_match: 0.4, wlb: 0.5, career_ceiling: 0.1, personality_fit: 0 },
-  founder_to_be:     { skill_match: 0.3, wlb: 0.2, career_ceiling: 0.5, personality_fit: 0 },
-  balanced:          { skill_match: 0.4, wlb: 0.3, career_ceiling: 0.3, personality_fit: 0 },
+  njob_lifer:        { skill_match: 0.35, wlb: 0.30, career_ceiling: 0.15, personality_fit: 0.20 },
+  growth_challenger: { skill_match: 0.30, wlb: 0.15, career_ceiling: 0.30, personality_fit: 0.25 },
+  jumper:            { skill_match: 0.40, wlb: 0.10, career_ceiling: 0.30, personality_fit: 0.20 },
+  stable_wlb:        { skill_match: 0.30, wlb: 0.40, career_ceiling: 0.10, personality_fit: 0.20 },
+  founder_to_be:     { skill_match: 0.25, wlb: 0.15, career_ceiling: 0.30, personality_fit: 0.30 },
+  balanced:          { skill_match: 0.30, wlb: 0.25, career_ceiling: 0.25, personality_fit: 0.20 },
 };
 
 function scoreToLabel(score: number): Label {
