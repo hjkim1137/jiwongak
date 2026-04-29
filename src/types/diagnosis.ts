@@ -8,6 +8,10 @@
  */
 
 import type { JobCategory, LifestyleType } from "./analysis";
+import type {
+  PersonalityAnswers,
+  PersonalityProfile,
+} from "./personality";
 
 // ── 경력 구간 ──
 
@@ -102,6 +106,7 @@ export type DiagnosisAnswers = Record<QuestionId, OptionId>;
 export type DiagnosisInput = {
   q0: Q0Answer;
   answers: DiagnosisAnswers;
+  personalityAnswers: PersonalityAnswers;
 };
 
 export type DiagnosisResult = {
@@ -110,8 +115,21 @@ export type DiagnosisResult = {
   typeScores: Record<LifestyleType, number>;
   /** top1 - top2 점수차 (낮으면 balanced로 귀속) */
   topGap: number;
-  /** compose-result에서 사용할 dimension 가중치 프리셋 */
-  weightsPreset: Record<"skill_match" | "wlb" | "career_ceiling", number>;
+  /**
+   * compose-result에서 사용할 dimension 가중치 프리셋.
+   * personality_fit 도입으로 4차원, 합 1.0.
+   */
+  weightsPreset: Record<
+    "skill_match" | "wlb" | "career_ceiling" | "personality_fit",
+    number
+  >;
+  /**
+   * P1~P6에서 계산된 성격 분류 + 축별 점수.
+   * classify-type은 라이프스타일만 채우고 page.tsx handleComplete에서
+   * classify-personality 결과를 머지한다.
+   * 레거시 호출(personality 미수행)에 대비해 옵셔널.
+   */
+  personality?: PersonalityProfile;
 };
 
 // ── 라이프스타일 타입 메타 ──

@@ -78,6 +78,11 @@ export type ParsedPosting = {
     salary_mentioned?: number;
     wlb_keywords: string[];
     growth_keywords: string[];
+    /**
+     * 조직 속도/변화 빈도/디테일 강조 등 문화적 신호 키워드.
+     * personality_fit 채점 근거로 사용. 추출 실패 시 빈 배열.
+     */
+    cultural_keywords: string[];
   };
 };
 
@@ -97,7 +102,11 @@ export type RetrievedInsight = {
 
 // ── [3] scoreDimensions 결과 ──
 
-export type Dimension = "skill_match" | "wlb" | "career_ceiling";
+export type Dimension =
+  | "skill_match"
+  | "wlb"
+  | "career_ceiling"
+  | "personality_fit";
 
 export type DimensionScore = {
   dimension: Dimension;
@@ -125,6 +134,8 @@ export type AnalysisResult = {
 
 // ── 사용자 프로필 (scoreDimensions 입력) ──
 
+import type { PersonalityProfile } from "./personality";
+
 export type UserProfile = {
   id: string;
   career_years?: number;
@@ -141,4 +152,10 @@ export type UserProfile = {
     years?: number;
     evidence?: string;
   }[];
+  /**
+   * 진단 P1~P6에서 계산된 성격 프로필.
+   * 레거시 사용자(진단 미수행 또는 personality 단계 이전 진단)는 undefined →
+   * scoreDimensions에서 personality_fit confidence를 0으로 강제.
+   */
+  personality_profile?: PersonalityProfile;
 };

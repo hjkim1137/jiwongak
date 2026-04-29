@@ -18,13 +18,20 @@ import type {
   Dimension,
 } from "@/types/analysis";
 
+/**
+ * 라이프스타일 타입별 차원 가중치 프리셋.
+ * 합은 1.0이어야 한다 (테스트로 검증).
+ *
+ * personality_fit는 도입 시점(타입 정의 단계)에서는 0으로 두고,
+ * 4차원 재정규화 단계에서 정상 비율로 갱신된다.
+ */
 export const TYPE_WEIGHTS: Record<LifestyleType, Record<Dimension, number>> = {
-  njob_lifer:        { skill_match: 0.4, wlb: 0.4, career_ceiling: 0.2 },
-  growth_challenger: { skill_match: 0.4, wlb: 0.2, career_ceiling: 0.4 },
-  jumper:            { skill_match: 0.5, wlb: 0.1, career_ceiling: 0.4 },
-  stable_wlb:        { skill_match: 0.4, wlb: 0.5, career_ceiling: 0.1 },
-  founder_to_be:     { skill_match: 0.3, wlb: 0.2, career_ceiling: 0.5 },
-  balanced:          { skill_match: 0.4, wlb: 0.3, career_ceiling: 0.3 },
+  njob_lifer:        { skill_match: 0.4, wlb: 0.4, career_ceiling: 0.2, personality_fit: 0 },
+  growth_challenger: { skill_match: 0.4, wlb: 0.2, career_ceiling: 0.4, personality_fit: 0 },
+  jumper:            { skill_match: 0.5, wlb: 0.1, career_ceiling: 0.4, personality_fit: 0 },
+  stable_wlb:        { skill_match: 0.4, wlb: 0.5, career_ceiling: 0.1, personality_fit: 0 },
+  founder_to_be:     { skill_match: 0.3, wlb: 0.2, career_ceiling: 0.5, personality_fit: 0 },
+  balanced:          { skill_match: 0.4, wlb: 0.3, career_ceiling: 0.3, personality_fit: 0 },
 };
 
 function scoreToLabel(score: number): Label {
