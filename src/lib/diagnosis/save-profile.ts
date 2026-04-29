@@ -10,6 +10,10 @@ import { getBrowserClient } from "@/lib/supabase";
 import type { CareerStage, DiagnosisAnswers } from "@/types/diagnosis";
 import type { DiagnosisResult } from "@/types/diagnosis";
 import type { JobCategory } from "@/types/analysis";
+import type {
+  PersonalityAnswers,
+  PersonalityProfile,
+} from "@/types/personality";
 
 const CAREER_STAGE_TO_YEARS: Record<CareerStage, number> = {
   entry: 0,
@@ -22,6 +26,8 @@ type SaveProfileParams = {
   jobCategory: JobCategory;
   careerStage: CareerStage;
   answers: DiagnosisAnswers;
+  personalityAnswers: PersonalityAnswers;
+  personalityProfile: PersonalityProfile;
   result: DiagnosisResult;
 };
 
@@ -30,6 +36,8 @@ export async function saveProfile({
   jobCategory,
   careerStage,
   answers,
+  personalityAnswers,
+  personalityProfile,
   result,
 }: SaveProfileParams): Promise<{ success: boolean; error?: string }> {
   const supabase = getBrowserClient();
@@ -40,9 +48,11 @@ export async function saveProfile({
       job_category: jobCategory,
       career_years: CAREER_STAGE_TO_YEARS[careerStage],
       lifestyle_type: result.lifestyleType,
+      personality_profile: personalityProfile,
       diagnosis_answers: {
         q0: { jobCategory, careerStage },
         answers,
+        personality_answers: personalityAnswers,
       },
     },
     { onConflict: "id" },

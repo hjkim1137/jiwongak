@@ -7,11 +7,18 @@ import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
 import { getBrowserClient } from "@/lib/supabase";
 import { saveProfile } from "@/lib/diagnosis/save-profile";
 import type { DiagnosisAnswers } from "@/types/diagnosis";
+import type { PersonalityAnswers } from "@/types/personality";
 type SaveStatus = "saving" | "saved" | "error" | "anonymous";
 
 export default function DiagnosisResultPage() {
-  const { result, jobCategory, careerStage, answers, reset } =
-    useDiagnosisStore();
+  const {
+    result,
+    jobCategory,
+    careerStage,
+    answers,
+    personalityAnswers,
+    reset,
+  } = useDiagnosisStore();
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("saving");
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
@@ -32,11 +39,19 @@ export default function DiagnosisResultPage() {
         }
 
         setUserEmail(u.email ?? null);
+        if (!result!.personality) {
+          // classify-personality가 실행되지 않은 결과는 저장하지 않는다
+          // (정상 플로우에서는 발생하지 않지만 페이지 직접 진입 등 방어)
+          setSaveStatus("error");
+          return;
+        }
         const res = await saveProfile({
           userId: u.id,
           jobCategory: jobCategory!,
           careerStage: careerStage!,
           answers: answers as DiagnosisAnswers,
+          personalityAnswers: personalityAnswers as PersonalityAnswers,
+          personalityProfile: result!.personality,
           result: result!,
         });
         setSaveStatus(res.success ? "saved" : "error");
@@ -47,7 +62,7 @@ export default function DiagnosisResultPage() {
     }
 
     checkAndSave();
-  }, [result, jobCategory, careerStage, answers]);
+  }, [result, jobCategory, careerStage, answers, personalityAnswers]);
 
   // 저장 완료 전까지는 스피너만 표시 — 카드+결과 동시 렌더로 깜빡임 제거
   if (!result || saveStatus === "saving") {
