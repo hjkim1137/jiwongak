@@ -7,7 +7,15 @@ import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
 import { getBrowserClient } from "@/lib/supabase";
 import { saveProfile } from "@/lib/diagnosis/save-profile";
 import type { DiagnosisAnswers } from "@/types/diagnosis";
-import type { PersonalityAnswers } from "@/types/personality";
+import type {
+  PersonalityAnswers,
+  PersonalityAxis,
+  PersonalityProfile,
+} from "@/types/personality";
+import {
+  PERSONALITY_AXES,
+  PERSONALITY_AXIS_META,
+} from "@/types/personality";
 type SaveStatus = "saving" | "saved" | "error" | "anonymous";
 
 export default function DiagnosisResultPage() {
@@ -103,6 +111,9 @@ export default function DiagnosisResultPage() {
             {meta.summary}
           </p>
         </div>
+
+        {/* 성격 카드 (3축 양극 분류) */}
+        {result.personality && <PersonalityCard profile={result.personality} />}
 
         {/* 저장 상태 (saved / error / anonymous) */}
         <div className="text-center text-sm">
@@ -205,18 +216,20 @@ export default function DiagnosisResultPage() {
           <p className="mt-1 text-xs text-neutral-400">
             공고 분석 시 이 비율로 점수가 산출됩니다
           </p>
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
             {Object.entries(result.weightsPreset).map(([dim, weight]) => (
               <div
                 key={dim}
-                className="flex-1 rounded-lg bg-neutral-50 p-3 text-center"
+                className="rounded-lg bg-neutral-50 p-3 text-center"
               >
                 <div className="text-xs text-neutral-500">
                   {dim === "skill_match"
                     ? "스킬"
                     : dim === "wlb"
                       ? "WLB"
-                      : "성장성"}
+                      : dim === "career_ceiling"
+                        ? "성장성"
+                        : "성격"}
                 </div>
                 <div className="mt-1 text-lg font-bold text-neutral-900">
                   {Math.round(weight * 100)}%
@@ -246,5 +259,97 @@ export default function DiagnosisResultPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+function PersonalityCard({ profile }: { profile: PersonalityProfile }) {
+  return (
+    <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <h2 className="text-sm font-semibold text-neutral-900">성격 프로필</h2>
+      <p className="mt-1 text-xs text-neutral-400">
+        3축 양극 분류 — 양극 모두 강점입니다
+      </p>
+      <div className="mt-5 space-y-5">
+        {PERSONALITY_AXES.map((axis) => (
+          <PersonalityAxisRow
+            key={axis}
+            axis={axis}
+            scores={profile.axisScores[axis]}
+            classification={profile.classification[axis]}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PersonalityAxisRow({
+  axis,
+  scores,
+  classification,
+}: {
+  axis: PersonalityAxis;
+  scores: { high: number; low: number };
+  classification: "high" | "low" | "balanced";
+}) {
+  const meta = PERSONALITY_AXIS_META[axis];
+  const total = scores.high + scores.low;
+  // total이 0이면 정중앙(50/50). balanced 표시.
+  const highPct = total === 0 ? 50 : (scores.high / total) * 100;
+  const lowPct = 100 - highPct;
+
+  const poleLabel =
+    classification === "high"
+      ? meta.highLabel
+      : classification === "low"
+        ? meta.lowLabel
+        : meta.balancedLabel;
+
+  const poleEmoji =
+    classification === "high"
+      ? meta.highEmoji
+      : classification === "low"
+        ? meta.lowEmoji
+        : meta.balancedEmoji;
+
+  const summary =
+    classification === "high"
+      ? meta.highSummary
+      : classification === "low"
+        ? meta.lowSummary
+        : meta.balancedSummary;
+
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-sm font-medium text-neutral-800">
+          {meta.label}
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium text-neutral-700">
+          <span>{poleEmoji}</span>
+          {poleLabel}
+        </span>
+      </div>
+
+      {/* 양극 막대: 좌(high) / 우(low) */}
+      <div className="mt-2 flex h-2 w-full overflow-hidden rounded-full bg-neutral-100">
+        <div
+          className="h-full bg-neutral-700 transition-all"
+          style={{ width: `${highPct}%` }}
+        />
+        <div
+          className="h-full bg-neutral-300 transition-all"
+          style={{ width: `${lowPct}%` }}
+        />
+      </div>
+      <div className="mt-1 flex justify-between text-[10px] font-medium text-neutral-400">
+        <span>{meta.highLabel}</span>
+        <span>{meta.lowLabel}</span>
+      </div>
+
+      <p className="mt-2 text-xs leading-relaxed text-neutral-500">
+        {summary}
+      </p>
+    </div>
   );
 }
