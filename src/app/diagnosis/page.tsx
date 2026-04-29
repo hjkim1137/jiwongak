@@ -6,17 +6,34 @@ import Link from "next/link";
 import { useDiagnosisStore } from "@/lib/stores/diagnosis-store";
 import { StepQ0 } from "./_components/step-q0";
 import { StepQuestion } from "./_components/step-question";
+import { StepPersonality } from "./_components/step-personality";
 import { ProgressBar } from "./_components/progress-bar";
 import { QUESTIONS } from "@/lib/diagnosis/questions";
+import { PERSONALITY_QUESTIONS } from "@/lib/diagnosis/personality-questions";
 import { LIFESTYLE_TYPE_META } from "@/types/diagnosis";
 import { classifyType } from "@/lib/diagnosis/classify-type";
+import { classifyPersonality } from "@/lib/diagnosis/classify-personality";
 import type { DiagnosisAnswers } from "@/types/diagnosis";
+import type { PersonalityAnswers } from "@/types/personality";
+
+const Q1_FIRST_STEP = 1;
+const P1_FIRST_STEP = 1 + QUESTIONS.length; // 9
 
 export default function DiagnosisPage() {
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
-  const { step, totalSteps, canGoNext, next, prev, isComplete, getAnswers, result, reset } =
-    useDiagnosisStore();
+  const {
+    step,
+    totalSteps,
+    canGoNext,
+    next,
+    prev,
+    isComplete,
+    getAnswers,
+    getPersonalityAnswers,
+    result,
+    reset,
+  } = useDiagnosisStore();
 
   // 이미 진단 완료 상태 → 결과 요약 + 재진단 선택 화면
   // isNavigating 중에는 표시하지 않음 (setState 직후 재렌더 플래시 방지)
@@ -62,23 +79,42 @@ export default function DiagnosisPage() {
   }
 
   const isQ0 = step === 0;
-  const questionIndex = step - 1;
-  const question = !isQ0 ? QUESTIONS[questionIndex] : null;
+  const isLifestyleStep = step >= Q1_FIRST_STEP && step < P1_FIRST_STEP;
+  const isPersonalityStep = step >= P1_FIRST_STEP;
+
+  const lifestyleQuestion = isLifestyleStep
+    ? QUESTIONS[step - Q1_FIRST_STEP]
+    : null;
+  const personalityQuestion = isPersonalityStep
+    ? PERSONALITY_QUESTIONS[step - P1_FIRST_STEP]
+    : null;
+
   const isLastStep = step === totalSteps - 1;
+  // 라이프스타일 마지막 단계(Q8) 직후에 한 번 안내 — 성격 섹션 진입 안내는
+  // 헤더 태그(축 라벨)로도 노출되므로 별도 인터스티셜은 두지 않는다.
 
   const handleComplete = () => {
     if (!isComplete()) return;
     setIsNavigating(true);
     const answers = getAnswers() as DiagnosisAnswers;
-    const diagResult = classifyType(answers);
-    useDiagnosisStore.setState({ result: diagResult });
+    const personalityAnswers = getPersonalityAnswers() as PersonalityAnswers;
+    const lifestyleResult = classifyType(answers);
+    const personality = classifyPersonality(personalityAnswers);
+    useDiagnosisStore.setState({
+      result: { ...lifestyleResult, personality },
+    });
     router.push("/diagnosis/result");
   };
+
+  const themeLabel = lifestyleQuestion
+    ? lifestyleQuestion.theme
+    : personalityQuestion
+      ? personalityQuestion.theme
+      : null;
 
   return (
     <main className="flex min-h-screen flex-col items-center px-4 py-8 sm:py-12 font-sans">
       <div className="w-full max-w-lg">
-        {/* 홈으로 */}
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
@@ -89,25 +125,30 @@ export default function DiagnosisPage() {
           홈
         </Link>
 
-        {/* 진행 바 */}
         <ProgressBar current={step} total={totalSteps} />
 
-        {/* 문항 */}
         <div className="mt-8">
           {isQ0 ? (
             <StepQ0 />
-          ) : question ? (
+          ) : lifestyleQuestion ? (
             <StepQuestion
-              key={question.id}
-              question={question}
-              questionIndex={questionIndex}
+              key={lifestyleQuestion.id}
+              question={lifestyleQuestion}
+              questionIndex={step - Q1_FIRST_STEP}
+              isLast={false}
+              onComplete={undefined}
+            />
+          ) : personalityQuestion ? (
+            <StepPersonality
+              key={personalityQuestion.id}
+              question={personalityQuestion}
+              questionIndex={step - P1_FIRST_STEP}
               isLast={isLastStep}
               onComplete={handleComplete}
             />
           ) : null}
         </div>
 
-        {/* 네비게이션 */}
         <div className="mt-10 flex items-center justify-between">
           <button
             onClick={prev}
@@ -117,7 +158,7 @@ export default function DiagnosisPage() {
             이전
           </button>
 
-          {/* Q0에서만 "다음" 버튼 표시. Q1~Q8은 선택 즉시 자동 이동 */}
+          {/* Q0에서만 "다음" 버튼 표시. Q1~Q8 / P1~P6은 선택 즉시 자동 이동 */}
           {isQ0 && (
             <button
               onClick={next}
@@ -129,11 +170,10 @@ export default function DiagnosisPage() {
           )}
         </div>
 
-        {/* 하단 안내 */}
         <p className="mt-6 text-center text-xs text-neutral-400">
           {step + 1} / {totalSteps}
-          {!isQ0 && question && (
-            <span className="ml-2 text-neutral-300">· {question.theme}</span>
+          {themeLabel && (
+            <span className="ml-2 text-neutral-300">· {themeLabel}</span>
           )}
         </p>
       </div>
