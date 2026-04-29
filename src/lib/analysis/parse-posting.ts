@@ -79,7 +79,7 @@ const PARSE_TOOL: Anthropic.Tool = {
       },
       raw_signals: {
         type: "object",
-        required: ["wlb_keywords", "growth_keywords"],
+        required: ["wlb_keywords", "growth_keywords", "cultural_keywords"],
         properties: {
           salary_mentioned: {
             type: "number",
@@ -96,6 +96,12 @@ const PARSE_TOOL: Anthropic.Tool = {
             items: { type: "string" },
             description:
               "성장/커리어 관련 키워드 (교육지원, 컨퍼런스, 승진, 스톡옵션 등)",
+          },
+          cultural_keywords: {
+            type: "array",
+            items: { type: "string" },
+            description:
+              "조직 속도/변화 빈도/디테일 강조 등 문화적 신호 키워드. 예: '빠른 의사결정', '잦은 피벗', '높은 자율성', '치밀함', '높은 목표', '디테일 중시', '안정된 프로세스'. 본문에 근거가 없으면 빈 배열",
           },
         },
       },
