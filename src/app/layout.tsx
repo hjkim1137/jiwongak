@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import "./globals.css";
 import { Providers } from "@/lib/providers";
 import { getServerClient } from "@/lib/supabase-server";
@@ -113,6 +114,33 @@ async function AppHeader() {
   );
 }
 
+function AppHeaderSkeleton() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label="지원각 홈"
+        >
+          <Image
+            src="/jiwongak-logo.png"
+            alt="지원각"
+            width={1922}
+            height={818}
+            priority
+            className="h-16 w-auto"
+          />
+        </Link>
+        <nav aria-hidden className="flex items-center gap-3">
+          <span className="h-5 w-16 animate-pulse rounded bg-neutral-100" />
+          <span className="h-9 w-28 animate-pulse rounded-lg bg-neutral-100" />
+        </nav>
+      </div>
+    </header>
+  );
+}
+
 function AppFooter() {
   return (
     <footer className="border-t border-neutral-100">
@@ -136,7 +164,9 @@ export default function RootLayout({
       >
         <Providers>
           <div className="flex min-h-screen flex-col">
-            <AppHeader />
+            <Suspense fallback={<AppHeaderSkeleton />}>
+              <AppHeader />
+            </Suspense>
             <div className="flex flex-1 flex-col">{children}</div>
             <AppFooter />
           </div>
