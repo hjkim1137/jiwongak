@@ -1,0 +1,24 @@
+name: Supabase Keep-Alive
+
+# Supabase 무료 티어는 7일 비활동 시 프로젝트가 자동 일시정지됨.
+# 매일 1회 가벼운 SELECT를 던져 활동 기록을 남긴다.
+
+on:
+  schedule:
+    - cron: "0 19 * * *" # 매일 UTC 19:00 = KST 04:00
+  workflow_dispatch: # 수동 실행 (테스트용)
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          curl -fsS \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            "${SUPABASE_URL}/rest/v1/industry_insights?select=id&limit=1"
