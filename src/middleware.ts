@@ -25,18 +25,11 @@ export async function middleware(request: NextRequest) {
     },
   );
 
-  // 세션 갱신 (만료 토큰 자동 리프레시)
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 로그인 필요 경로 (분석 기록, 마이페이지 등 저장 기능)
-  const protectedPaths = ["/history", "/settings", "/account"];
-  const isProtected = protectedPaths.some((p) =>
-    request.nextUrl.pathname.startsWith(p),
-  );
-
-  if (!user && isProtected) {
+  if (!user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", request.nextUrl.pathname);
@@ -47,9 +40,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    // 정적 파일, _next, favicon, API 라우트 제외
-    // API 라우트는 route.ts 내부에서 직접 auth 처리하므로 미들웨어 불필요
-    "/((?!_next/static|_next/image|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/history/:path*", "/settings/:path*", "/account/:path*"],
 };
